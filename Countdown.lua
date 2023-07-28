@@ -1,5 +1,3 @@
-
-
 function Countdown(duration)
 local ScreenGui = Instance.new("ScreenGui")
 local CountdownFrame = Instance.new("Frame")

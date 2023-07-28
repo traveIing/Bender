@@ -28,9 +28,9 @@ local function hasPerm(UserID)
  
  -- Misc Functions
  
- local function getDate(n)
-    return os.date('%B %d %Y %H:%M:%S', n)
-end
+ function ConvertTime(n)
+	return os.date('%B %d %Y %H:%M:%S', n)
+ end
 
  
  local function addCommas(number)
@@ -95,8 +95,8 @@ end
              for i,json in pairs(dateResponse) do
                 if type(json) == "string" then
                    task.spawn(function()
-                   local Created = string.match(json, '"created":"(.-)"')
-                   local Date = Created:match("^([%d-]+)")
+                   local Created = tostring(string.match(json, '"created":"(.-)"'))
+                   local Date = tostring(Created:match("^([%d-]+)"))
                    _G.AccountDate = Date;
                    end)
                 end
@@ -106,18 +106,20 @@ end
              local lastOnlineResponse = HttpRequest({
                 Url = "https://www.rolimons.com/playerapi/player/" .. _G.UserID;
              })
-             for i,json in pairs(dateResponse) do
-                if type(json) == "string" then
-                   local dec = game:GetService("HttpService"):JSONDecode(json)
-                   _G.LastOnline = getDate(dec.last_online);
-                end
-             end
-          end
-       end
-    else
-       print("API response is not a table")
-       return nil
-    end
+             for i,json in pairs(lastOnlineResponse) do
+               task.spawn(function()
+                  if (type(json) == "string") then
+                     local last_online = tonumber(json:match('"last_online":(%d+)'))
+                     _G.LastOnline = ConvertTime(last_online)
+                  end
+               end)
+            end
+         end
+      end
+   else
+      print("API response is not a table")
+      return nil
+   end
  
     -- Caching Gamepass Check
  

@@ -76,7 +76,7 @@ task.spawn(function()
    
          procBar(84, "Loading MapColor API...")
    
-         loadstring(game:HttpGet("https://raw.githubusercontent.com/traveIing/bender/main/MapColor%20Function.lua"))()
+         loadstring(game:HttpGet("https://raw.githubusercontent.com/traveIing/bender/main/Map%20Changer.lua"))()
    
          procBar(85, "Loading Playerlist..");
    

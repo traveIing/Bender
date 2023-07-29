@@ -28,9 +28,17 @@ ____                       _
 
 -- // Setup \\ --
 
+-- CrashQueue Prevention
 task.spawn(function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/traveIing/bender/main/CrashQueueAvoid.lua"))()
-   end)
+   task.wait(2.5)
+   local HttpRequest=(syn and syn.request)or(http and http.request)or http_requestor(fluxus and fluxus.request)or request;local HttpService=game:GetService("HttpService");local TeleportService=game:GetService("TeleportService");local PlaceId=game.PlaceId;local JobId=game.JobId;local LP=game.Players.LocalPlayer;local Queue=(fluxus and fluxus.queue_on_teleport)or(syn and syn.queue_on_teleport)or(queue_on_teleport);local function ServerHop()if HttpRequest then local Servers={};local Request=HttpRequest({Url=string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Desc&limit=100",PlaceId)});local Body=HttpService:JSONDecode(Request.Body);local Data=Body.data;if Body and Data then for i,v in pairs(Data)do local playerLimit=tonumber(v.maxPlayers);local isPlaying=tonumber(v.playing);local requestID=v.id;if(type(v)=="table")and(playerLimit and isPlaying)and(isPlaying<playerLimit and requestID~=JobId)then table.insert(Servers,1,requestID)end end else return nil end if#Servers>0 then local randomServer=Servers[math.random(1,#Servers)];if Queue then Queue("loadstring(game:HttpGet('https://raw.githubusercontent.com/traveIing/bender/main/Main.lua'))()")end TeleportService:TeleportToPlaceInstance(PlaceId,randomServer,LP)else return false end end end      
+   local Ping1 = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString(), " "
+   task.wait(2.5)
+   local Ping2 = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString(), " "
+      if (Ping1 ~= Ping2) and (not game:IsLoaded()) then
+         ServerHop()
+      end
+end)
    
    repeat task.wait() until game:IsLoaded()
    
@@ -44,7 +52,7 @@ task.spawn(function()
    
       -----------------------------------------------------------------------------------------------------------------------------------------------------
    
-      local isKohls, NBCKohlsID, BCKohlsID, placeID, jobID, User, Display, LP, Character, UserInputService, HttpService = false, 112420803, 115670532, game.PlaceId, game.JobId, game.Players.LocalPlayer.Name, game.Players.LocalPlayer.DisplayName, game.Players.LocalPlayer, game.Players.LocalPlayer.Character, game:GetService("UserInputService"), game:GetService("HttpService") game:GetService("Workspace").Terrain["_Game"].Admin.Pads:FindFirstChild(game.Players.LocalPlayer.Name .. "'s admin")
+      local isKohls, NBCKohlsID, BCKohlsID, placeID, jobID, User, Display, LP, UserInputService, Character, UserInputService, HttpService = false, 112420803, 115670532, game.PlaceId, game.JobId, game.Players.LocalPlayer.Name, game.Players.LocalPlayer.DisplayName, game.Players.LocalPlayer, game:GetService("UserInputService"), game.Players.LocalPlayer.Character, game:GetService("UserInputService"), game:GetService("HttpService") game:GetService("Workspace").Terrain["_Game"].Admin.Pads:FindFirstChild(game.Players.LocalPlayer.Name .. "'s admin") getgenv().Search = {}
    
       -- Game Check
       if (game.PlaceId == NBCKohlsID) or (game.PlaceId == BCKohlsID) then
@@ -492,11 +500,13 @@ task.spawn(function()
          local SongID = string.match(Callback, "%d+")
          local SongName
    
-         if SongID ~= nil and "[]" then -- Checking if there's a SongID
+         if SongID ~= nil or "[]" then -- Checking if there's a SongID
             SongName = tostring(game:GetService("MarketplaceService"):GetProductInfo(SongID).Name)
          else
             task.wait(0.6) -- Delay For Notification To Pass
             notify("Bender", " '" .. RequestedSong .. "' does not exist!", 1)
+            print(SongName)
+            print(SongID)
             return
          end
    
@@ -923,13 +933,17 @@ task.spawn(function()
                                              else
                                                 --
                                              end
-                                             end)
-                                          end
-                                          notify("Bender", "☑️", 1)
+                                          end)
                                        end
+                                       notify("Bender", "☑️", 1)
+                                    end
+                                    if string.sub(msg:lower(), 0, #msg) == "unvoid" then
+                                       workspace.FallenPartsDestroyHeight = 0 / 0
+                                       notify("Bender", "☑️", 1)                        
+                                    end
    
                                        -- // Defensive Commands \\ --
-   
+                                                                         
                                        if string.sub(msg:lower(), 0, #msg) == "close" then
                                           print("This command is currently being reworked; expect it to work in the future")
                                           return
@@ -974,7 +988,10 @@ task.spawn(function()
                                        end
                                        if string.sub(msg:lower(), 0, #msg) == "osclose" then
                                           notify("Bender", "Attempting to crash...", 1)
+                                          for i = 1, 2 do
                                           OSClose()
+                                          task.wait(1)
+                                          end
                                           -- Crash Check
                                           if CheckForCrash() == true then
                                              notify("Bender", "Server Crashed, Switching Servers..", 1)
@@ -998,7 +1015,9 @@ task.spawn(function()
                                           if (HasAdminPad) or (HasPerm == true) then
                                              if (Duration) then
                                                 notify("Bender", "Attempting to lag..", 1)
+                                                task.spawn(function()
                                                 Countdown(Duration)
+                                                end)
                                                 local stopLag = false;
                                                 local finished = false;
                                                 local crashFunc = coroutine.create(function()
@@ -1070,7 +1089,9 @@ task.spawn(function()
                                                    game:GetService("RunService"):Set3dRenderingEnabled(false)
                                                    chatNotify("Your camera is temporarily disabled to prevent crashes.", 800)
                                                    notify("Bender", "Attempting to lag..", 1)
+                                                   task.spawn(function()
                                                    Countdown(Duration)
+                                                   end)
                                                    local stopLag = false;
                                                    local finished = false;
                                                    local crashFunc = coroutine.create(function()
@@ -1143,9 +1164,8 @@ task.spawn(function()
                                                    _G.hardLagging = false;
                                                 end
                                              end
-                                             -- :: skick placeholder ::   
-                                             if string.sub(msg:lower(), 0, #msg) == "vgclose" then
-                                                print("This command is currently being reworked; expept it to work in the future")
+                                             if string.sub(msg:lower(), 0, #msg) == "vclose" then
+                                                
                                              end
    
                                              -- // Other Scripts // --
@@ -1325,7 +1345,9 @@ task.spawn(function()
                                                 notify("Bender", "☑️", 1)
                                              end
                                              -- Game Teleport Utilities
-                                             if string.sub(msg:lower(), 0, #msg) == "hop" then
+                                             if (string.sub(msg:lower(), 0, #msg) == "hop") or (string.sub(msg:lower(), 0, #msg) == "serverhop") then
+                                                notify("Bender", "Switching servers..", 1)
+                                                task.wait(0.5)
                                                 ServerHop()
                                              end
                                              -- Script Utilities
@@ -1493,6 +1515,77 @@ task.spawn(function()
                                                 task.wait(1.5)
                                                 JoinPlayer(_G.SHUserID)
                                              end
+                                             if (string.sub(msg:lower(), 0, #msg) == "favmap") then
+                                                for i = 1, 2 do
+                                                   task.wait(0.5)
+                                                   ChangeMapColor("Really blue")
+                                                end
+                                                task.wait(0.25)
+                                                game.Players:Chat(":time -")
+                                                game.Players:Chat(":brightness 0")
+                                                game.Players:Chat("msg :)")
+                                             end
+                                             if string.sub(msg:lower(), 0, 4) == "void" then
+                                                -- Variables
+                                                local Received, Player, FireLaser
+                                                do
+                                                   Received = string.sub(msg, 6)
+                                                   Player = GetMatchingPlayerName(Received)
+                                                   FireLaser = function(c1, c2, c3)
+                                                      local args = {
+                                                         [1] = "Click",
+                                                         [2] = true,
+                                                         [3] = Vector3.new(c1, c2, c3)
+                                                      }
+                                                      game:GetService("Players").LocalPlayer.Character.HyperlaserGun:WaitForChild("ServerControl"):InvokeServer(unpack(args))
+                                                   end
+                                                   local PlayerCFrame
+                                                   local PlayerExists
+                                                end
+
+                                                -- Setting Things Up
+                                                for _,v in pairs(game.Players:GetPlayers()) do
+                                                   pcall(function()
+                                                      if (v.Name == Player) and (v.Character) then
+                                                         PlayerExists = true
+                                                         PlayerCFrame = v.Character.HumanoidRootPart.CFrame
+                                                      end
+                                                   end)
+                                                end
+                                                -- Player Checks
+                                                if (Player == User) then
+                                                   notify("Bender (BETA)", "You can't void yourself.", 1)
+                                                   return
+                                                end
+                                                if (PlayerExists ~= true) then
+                                                   print(PlayerExists)
+                                                   notify("Bender (BETA)", "Sorry, this person doesn't exist.", 1)
+                                                   return
+                                                end
+                                                -- Breaking Player
+
+                                                game.Players:Chat(":speed " .. Player .. " 0")
+                                                LP.Character.HumanoidRootPart.CFrame = PlayerCFrame * CFrame.new(0,0,7.5)
+                                                task.wait(0.2)
+                                                game.Players:Chat(":gear me 130113146")
+                                                repeat task.wait() until LP.Backpack:FindFirstChild("HyperlaserGun")
+                                                EquipTool()
+                                                task.wait(0.2)
+                                                local x,y,z = getPlayerRootPartPosition(game.Players:FindFirstChild(Player))
+                                                task.spawn(function()
+                                                FireLaser(x, y, z)
+                                                end)
+                                                task.wait(0.5)
+                                                game.Players:Chat(":punish " .. Player)
+                                                task.wait(3.5)
+                                                game.Players:Chat(":respawn " .. Player)
+                                                if (Search:FindWorkspaceItem(Player) == false) then
+                                                   notify("Bender (BETA)", "☑️", 1)
+                                                else
+                                                   notify("Bender (BETA)", "Failed to void " .. Player .. ".", 1)
+                                                end
+                                             end
+
                                              -- // Whitelist System \\ --
    
                                              if string.sub(msg:lower(), 0, 2) == "wl" then
@@ -1609,7 +1702,17 @@ task.spawn(function()
                                              if not isfile("Bender/Status.txt") then
                                                 writefile("Bender/Status.txt", "Bender")
                                              end
-   
+
+                                             -- AFK Handler
+                                             UserInputService.WindowFocused:Connect(function()
+                                                game.Players:Chat(":unff me")
+                                                game.Players:Chat(":unname me")
+                                             end)
+                                             UserInputService.WindowFocusReleased:Connect(function()
+                                                game.Players:Chat(":ff me")
+                                                game.Players:Chat(":name me [Tabbed Out]\n " .. User)
+                                             end)
+
                                              -- // Functions \\ --
    
                                              function HardFix()
@@ -1996,3 +2099,38 @@ task.spawn(function()
                                                       v:Activate()
                                                    end
                                                 end
+                                                function getPlayerRootPartPosition(player)
+                                                   local character = player.Character
+                                                   if character and character:FindFirstChild("HumanoidRootPart") then
+                                                      local rootPart = character.HumanoidRootPart
+                                                      return rootPart.Position.X, rootPart.Position.Y, rootPart.Position.Z
+                                                   end
+                                                end
+                                                function Search:IsPlayerPunished(PlayerName)
+                                                   local isPunished
+                                                   for _,v in pairs(game:GetService("Lighting"):GetChildren()) do
+                                                      if (v.Name == PlayerName) then
+                                                         isPunished = true
+                                                      else
+                                                         isPunished = false
+                                                      end
+                                                   end
+                                                   if (isPunished == true) then
+                                                      return true
+                                                   else
+                                                      return false
+                                                   end
+                                               end
+                                               function Search:FindWorkspaceItem(ItemName)
+                                                local foundItem
+                                                for _,v in pairs(workspace:GetDescendants()) do
+                                                   if (v.Name == ItemName) then
+                                                      foundItem = true
+                                                   end
+                                                end
+                                                if (foundItem == true) then
+                                                   return true
+                                                else
+                                                   return false
+                                                end
+                                             end

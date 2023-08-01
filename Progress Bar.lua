@@ -4,26 +4,30 @@ local UICorner = Instance.new("UICorner")
 local BarProgress = Instance.new("Frame")
 local UICorner_2 = Instance.new("UICorner")
 local LoadingText = Instance.new("TextLabel")
+
 LoadingBar.Name = "LoadingBar"
 LoadingBar.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 LoadingBar.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
 BackFrame.Name = "BackFrame"
 BackFrame.Parent = LoadingBar
-BackFrame.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+BackFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40) -- Darker background color
 BackFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 BackFrame.BorderSizePixel = 0
 BackFrame.Position = UDim2.new(0.5, -220, 1, 0)
 BackFrame.Size = UDim2.new(0, 441, 0, 57)
 UICorner.CornerRadius = UDim.new(0, 14)
 UICorner.Parent = BackFrame
+
 BarProgress.Name = "BarProgress"
 BarProgress.Parent = BackFrame
-BarProgress.BackgroundColor3 = Color3.fromRGB(107, 107, 107)
+BarProgress.BackgroundColor3 = Color3.fromRGB(70, 70, 70) -- Darker progress bar color
 BarProgress.BorderColor3 = Color3.fromRGB(0, 0, 0)
 BarProgress.BorderSizePixel = 0
 BarProgress.Size = UDim2.new(0, 0, 0, 57)
 UICorner_2.CornerRadius = UDim.new(0, 14)
 UICorner_2.Parent = BarProgress
+
 LoadingText.Name = "LoadingText"
 LoadingText.Parent = BackFrame
 LoadingText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -34,7 +38,7 @@ LoadingText.Position = UDim2.new(0.274376422, 0, 0, 0)
 LoadingText.Size = UDim2.new(0, 200, 0, 57)
 LoadingText.Font = Enum.Font.SourceSans
 LoadingText.Text = "Loading..."
-LoadingText.TextColor3 = Color3.fromRGB(205, 210, 226)
+LoadingText.TextColor3 = Color3.fromRGB(160, 160, 160) -- Darker text color
 LoadingText.TextSize = 25.000
 local TweenService = game:GetService("TweenService")
 function setProgress(progress, labelText)

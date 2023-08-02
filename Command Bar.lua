@@ -1,4 +1,5 @@
 local CommandBar = Instance.new("ScreenGui")
+CommandBar.ResetOnSpawn = false
 local Main = Instance.new("Frame")
 local UICorner = Instance.new("UICorner")
 local BarTextBox = Instance.new("TextBox")

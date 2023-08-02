@@ -1,4 +1,4 @@
-local function notify(titletxt, text, time)
+function notify(titletxt, text, time)
     local GUI = Instance.new("ScreenGui")
     local Main = Instance.new("Frame", GUI)
     local UICorner = Instance.new("UICorner", Main)

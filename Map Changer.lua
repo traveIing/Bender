@@ -147,7 +147,7 @@ end
 
 function ChangeMapColor(color)
 
-prepMapChange(0.5)
+prepMapChange(1)
 
 coroutine.wrap(function()
 ColorAPI.colorHouse({
@@ -198,7 +198,7 @@ end
 -- // Themes (MISC)
 
 function FixMapColors()
-prepMapChange(0.5)
+prepMapChange(1)
 task.spawn(function()
 ColorAPI.colorObbyBox(transformColor("Teal"))
 end)
@@ -238,12 +238,12 @@ chiC = transformColor("Sand red"),
 ColorAPI.color(game.Workspace.Terrain["_Game"].Workspace["Baseplate"], transformColor("Bright green"))
 })
 end)
-task.wait(0.5)
+task.wait(1)
 game.Players:Chat(":ungear me")
 end
 
 function Quiving()
-    prepMapChange(0.5)
+    prepMapChange(1)
     task.spawn(function()
         ColorAPI.colorObbyBox(transformColor("Bright green"))
     end)
@@ -282,6 +282,6 @@ function Quiving()
             ColorAPI.color(game.Workspace.Terrain["_Game"].Workspace["Baseplate"], transformColor("Earth green"))
         })
     end)
-    task.wait(0.5)
+    task.wait(1)
     game.Players:Chat(":ungear me")
 end

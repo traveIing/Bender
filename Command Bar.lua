@@ -10,7 +10,7 @@ CommandBar.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 Main.Name = "Main"
 Main.Parent = CommandBar
-Main.BackgroundColor3 = Color3.fromRGB(71, 71, 71)
+Main.BackgroundColor3 = Color3.fromRGB(71, 71, 71) -- Change the background color to match the loading bar
 Main.BackgroundTransparency = 0.200
 Main.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Main.BorderSizePixel = 0
@@ -21,7 +21,7 @@ UICorner.Parent = Main
 
 BarTextBox.Name = "BarTextBox"
 BarTextBox.Parent = Main
-BarTextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+BarTextBox.BackgroundColor3 = Color3.fromRGB(71, 71, 71) -- Change the background color to match the loading bar
 BarTextBox.BackgroundTransparency = 1.000
 BarTextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
 BarTextBox.BorderSizePixel = 0

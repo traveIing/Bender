@@ -1697,15 +1697,6 @@
                                                    writefile("Bender/Status.txt", "Bender")
                                                 end
 
-                                                -- AFK Handler
-                                                UserInputService.WindowFocused:Connect(function()
-                                                   game.Players:Chat(":unff me")
-                                                   game.Players:Chat(":unname me")
-                                                end)
-                                                UserInputService.WindowFocusReleased:Connect(function()
-                                                   game.Players:Chat(":ff me")
-                                                   game.Players:Chat(":name me <away();>\n " .. User)
-                                                end)
 
                                                 -- // Functions \\ --
       

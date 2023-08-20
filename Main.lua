@@ -36,8 +36,8 @@
          getgenv().Whitelisted = {} getgenv().Pref = "!" getgenv().ChatlogsSpamText = "ff" getgenv().ChatSpamText = "Text" getgenv().AntiCrash = false;
       
          -- For CODE use, NOT PERSONAL use (DON'T touch this! ❌)
-         getgenv().WhitelistCount = {} getgenv().Connections = {}  getgenv().WhitelistConnection = {} getgenv().LockedSound = false getgenv().softLagging = false getgenv().AntiBlind = false; getgenv().Search = {} getgenv().Chaos = false
-      
+         getgenv().WhitelistCount = {} getgenv().Connections = {}  getgenv().WhitelistConnection = {} getgenv().LockedSound = false getgenv().softLagging = false getgenv().Search = {} getgenv().Chaos = false
+
          -----------------------------------------------------------------------------------------------------------------------------------------------------
       
          local isKohls, NBCKohlsID, BCKohlsID, placeID, jobID, User, Display, LP, UserInputService, Character, UserInputService, HttpService, openedChatLogs = false, 112420803, 115670532, game.PlaceId, game.JobId, game.Players.LocalPlayer.Name, game.Players.LocalPlayer.DisplayName, game.Players.LocalPlayer, game:GetService("UserInputService"), game.Players.LocalPlayer.Character, game:GetService("UserInputService"), game:GetService("HttpService"), false game:GetService("Workspace").Terrain["_Game"].Admin.Pads:FindFirstChild(game.Players.LocalPlayer.Name .. "'s admin")
@@ -49,6 +49,7 @@
             -- Importing Scripts
             
             loadstring(game:HttpGet("https://raw.githubusercontent.com/traveIing/bender/main/Progress%20Bar.lua"))()
+            task.wait(0.5)
             setProgress(14, "Loading Command Bar...");
             loadstring(game:HttpGet("https://raw.githubusercontent.com/traveIing/bender/main/Command%20Bar.lua"))()
             setProgress(28, "Loading Notification System...");
@@ -175,7 +176,7 @@
       
          -- Teleporting Shortcuts --
          if string.sub(msg:lower(), 0, 5) == "bring" then
-            local Request = string.sub(msg:lower(), 7) -- To accept caps parameters
+            local Request = string.sub(msg:lower(), 7)
       
             if (Request == "all" or Request == "everyone") then
                game.Players:Chat(":tp all me")
@@ -244,99 +245,51 @@
       
          if string.sub(msg:lower(), 0, 6) == "carpet" then
             local Player = string.sub(msg, 8)
-            if GetMatchingPlayerName(Player) then
-               game.Players:Chat(":gear " .. GetMatchingPlayerName(Player) .. " 225921000")
-            else
-               game.Players:Chat(":gear " .. User .. " 225921000")
-            end
+            handleGearAssignment("225921000", Player)
          end
          if string.sub(msg:lower(), 0, 5) == "laser" then
             local Player = string.sub(msg, 7)
-            if GetMatchingPlayerName(Player) then
-               game.Players:Chat(":gear " .. GetMatchingPlayerName(Player) .. " 130113146")
-            else
-               game.Players:Chat(":gear " .. User .. " 130113146")
-            end
+            handleGearAssignment("130113146", Player)
          end
          if string.sub(msg:lower(), 0, 3) == "bat" then
             local Player = string.sub(msg, 5)
-            if GetMatchingPlayerName(Player) then
-               game.Players:Chat(":gear " .. GetMatchingPlayerName(Player) .. " 55301897")
-            else
-               game.Players:Chat(":gear " .. User .. " 55301897")
-            end
+            handleGearAssignment("55301897", Player)
          end
          if string.sub(msg:lower(), 0, 5) == "money" then
             local Player = string.sub(msg, 7)
-            if GetMatchingPlayerName(Player) then
-               game.Players:Chat(":gear " .. GetMatchingPlayerName(Player) .. " 16722267")
-            else
-               game.Players:Chat(":gear " .. User .. " 16722267")
-            end
+            handleGearAssignment("16722267", Player)
          end
          if string.sub(msg:lower(), 0, 8) == "ironfist" then
             local Player = string.sub(msg, 10)
-            if GetMatchingPlayerName(Player) then
-               game.Players:Chat(":gear " .. GetMatchingPlayerName(Player) .. " 243790334")
-            else
-               game.Players:Chat(":gear " .. User .. " 243790334")
-            end
+            handleGearAssignment("243790334", Player)
          end
          if string.sub(msg:lower(), 0, 3) == "gun" then
             local Player = string.sub(msg, 5)
-            if GetMatchingPlayerName(Player) then
-               game.Players:Chat(":gear " .. GetMatchingPlayerName(Player) .. " 97885508")
-            else
-               game.Players:Chat(":gear ".. User .. " 97885508")
-            end
+            handleGearAssignment("97885508", Player)
          end
          if string.sub(msg:lower(), 0, 7) == "pbucket" then
             local Player = string.sub(msg, 9)
-            if GetMatchingPlayerName(Player) then
-               game.Players:Chat(":gear ".. GetMatchingPlayerName(Player) .. " 18474459")
-            else
-               game.Players:Chat(":gear ".. User .. " 18474459")
-            end
+            handleGearAssignment("18474459", Player)
          end
          if string.sub(msg:lower(), 0, 6) == "potato" then
             local Player = string.sub(msg, 8)
-            if GetMatchingPlayerName(Player) then
-               game.Players:Chat("gear " .. GetMatchingPlayerName(Player) .. " 00000000025741198")
-            else
-               game.Players:Chat("gear " .. User .. " 00000000025741198")
-            end
+            handleGearAssignment("25741198", Player)
          end
          if string.sub(msg:lower(), 0, 2) == "vg" then
             local Player = string.sub(msg, 4)
-            if GetMatchingPlayerName(Player) then
-               game.Players:Chat("gear " .. GetMatchingPlayerName(Player) .. " 94794847")
-            else
-               game.Players:Chat("gear " .. User .. " 94794847")
-            end
+            handleGearAssignment("94794847", Player)
          end
          if string.sub(msg:lower(), 0, 5) == "taser" then
             local Player = string.sub(msg, 7)
-            if GetMatchingPlayerName(Player) then
-               game.Players:Chat(":gear " .. GetMatchingPlayerName(Player) .. " 82357123")
-            else
-               game.Players:Chat(":gear " .. User .. " 82357123")
-            end
+            handleGearAssignment("82357123", Player)
          end
          if string.sub(msg:lower(), 0, 5) == "plane" then
             local Player = string.sub(msg, 7)
-            if GetMatchingPlayerName(Player) then
-               game.Players:Chat(":gear " .. GetMatchingPlayerName(Player) .. " 163348575")
-            else
-               game.Players:Chat(":gear " .. User .. " 163348575")
-            end
+            handleGearAssignment("163348575", Player)
          end
          if string.sub(msg:lower(), 0, 5) == "ivory" then
             local Player = string.sub(msg, 7)
-            if GetMatchingPlayerName(Player) then
-               game.Players:Chat(":gear " .. GetMatchingPlayerName(Player) .. " 108158379")
-            else
-               game.Players:Chat(":gear " .. User .. " 108158379")
-            end
+            handleGearAssignment("108158379", Player)
          end
          if string.sub(msg:lower(), 0, 7) == "velokit" then
             local Player = string.sub(msg, 9)
@@ -386,10 +339,8 @@
             game.Players:Chat(":time 1")
          end
          if string.sub(msg:lower(), 0, #msg) == "purple" then
-            for i = 1, 2 do
-               ChangeMapColor("Mulberry")
-               task.wait(0.5)
-               end
+            ChangeMapColor("Mulberry")
+            task.wait(0.5)
             game.Players:Chat(":fogcolor 160 32 240")
             game.Players:Chat(":fogend 1000")
             game.Players:Chat(":time 1")
@@ -400,10 +351,8 @@
             game.Players:Chat(":time 1")
          end
          if string.sub(msg:lower(), 0, #msg) == "white" then
-            for i = 1, 2 do
             ChangeMapColor("Really white")
             task.wait(0.5)
-            end
             game.Players:Chat(":fogend 10000")
             notify("Bender", "☑️", 1)
          end
@@ -526,14 +475,16 @@
                   game.Players:Chat("alert Sound is locked")
                   -- Setting Up Loop
                   LockedSound = true
-                  while LockedSound == true do
+                  while (LockedSound == true) do
                      -- Preventing Sound Adjustments
                      task.wait()
-      
-                     if SoundCheck() == false or game:GetService("Workspace").Terrain["_Game"].Folder.Sound.SoundId ~= SavedSound
-                     or string.match(SavedSound, "%d+$") == 0 then
-                        game.Players:Chat(":music " .. SoundID);
-                        task.wait(1)
+                     if (SoundCheck() == false) or (game:GetService("Workspace").Terrain["_Game"].Folder.Sound.SoundId ~= SavedSound)
+                     or (string.match(SavedSound, "%d+$") == 0) then
+                        pcall(function()
+                           game.Players:Chat(":music " .. SoundID);
+                           game:GetService("Workspace").Terrain["_Game"].Folder.Sound.Playing = true
+                           task.wait(1)
+                        end)
                      end
                   end
                end
@@ -989,10 +940,7 @@
                                           end
                                           if string.sub(msg:lower(), 0, #msg) == "osclose" then
                                              notify("Bender", "Attempting to crash...", 1)
-                                             for i = 1, 2 do
                                              OSClose()
-                                             task.wait(1)
-                                             end
                                              -- Crash Check
                                              if CheckForCrash() == true then
                                                 notify("Bender", "Server Crashed, Switching Servers..", 1)
@@ -1172,11 +1120,39 @@
                                                    local HasAdminPad = game:GetService("Workspace").Terrain["_Game"].Admin.Pads:FindFirstChild(LP.Name .. "'s admin")
                                                    local HasPerm = CheckForPerm(LP.Name)
                                                    local HasAdmin = (HasPerm == true) or (HasAdminPad)
+                                                   local FinishedCrashAttempt
                                                    -- Admin Check
                                                    if (HasAdmin) then
-                                                      --
+                                                      notify("Bender", "Attempting to crash..", 1)
+                                                      -- Server Crash
+                                                      task.spawn(function()
+                                                            if (LP.Backpack:FindFirstChildOfClass("Tool")) then
+                                                               game.Players:Chat(":ungear " .. User)
+                                                            end
+                                                            game.Players:Chat("vg")
+                                                            repeat task.wait() until LP.Backpack:FindFirstChild("VampireVanquisher")
+                                                            EquipTool()
+                                                            task.wait(0.5)
+                                                            for i = 1, 25 do
+                                                               game.Players:Chat("size me .3")
+                                                            end
+                                                            FinishedCrashAttempt = true
+                                                         end)
+                                                         -- Crash Check
+                                                         repeat task.wait() until (FinishedCrashAttempt == true)
+                                                         task.wait(0.25)
+                                                         if (CheckForCrash() == true) then
+                                                            notify("Bender", "Server Crashed, Switching Servers..", 1)
+                                                            ServerHop()
+                                                         else
+                                                            notifyError("Bender", "ERROR: HasCrashed = " .. tostring(CheckForCrash()), 5)
+                                                            return
+                                                         end
+                                                      else
+                                                         notifyError("Bender", "You must have admin in order to use this command!", 1)
+                                                         return
+                                                      end
                                                    end
-                                                end
       
                                                 -- // Other Scripts \\ --
       
@@ -1309,35 +1285,6 @@
                                                       else
                                                          notify("Bender", "'" .. GetMatchingPlayerName(Player) .. "' doesn't have perm!", 1);
                                                       end
-                                                   end
-                                                end
-
-                                                -- // Visual \\ --
-
-                                                -- Camera Controls
-                                                if string.sub(msg:lower(), 0, #msg) == "hideblind" then
-                                                   if (AntiBlind == true) then
-                                                      notify("Bender", "AntiBlind is already enabled!", 1)
-                                                      return
-                                                   end
-                                                   AntiBlind = true
-                                                   destroyExistingBlinds()
-                                                   if (AntiBlind == true) then
-                                                      notify("Bender", "☑️", 1)
-                                                   else
-                                                      notify("Bender", "Unexpected error.", 1)
-                                                   end
-                                                end
-                                                if string.sub(msg:lower(), 0, #msg) == "showblind" then
-                                                   if (AntiBlind == false) then
-                                                      notify("Bender", "AntiBlind hasn't been enabled.", 1)
-                                                      return
-                                                   end
-                                                   AntiBlind = false
-                                                   if (AntiBlind == false) then
-                                                      notify("Bender", "☑️", 1)
-                                                   else
-                                                      notify("Bender", "Unexpected error.", 1)
                                                    end
                                                 end
       
@@ -1564,10 +1511,8 @@
                                                    JoinPlayer(_G.SHUserID)
                                                 end
                                                 if (string.sub(msg:lower(), 0, #msg) == "favmap") then
-                                                   for i = 1, 2 do
-                                                      task.wait(0.5)
-                                                      ChangeMapColor("Really blue")
-                                                   end
+                                                   task.wait(0.5)
+                                                   ChangeMapColor("Really blue")
                                                    task.wait(0.25)
                                                    game.Players:Chat(":time -")
                                                    game.Players:Chat(":brightness 0")
@@ -1759,19 +1704,9 @@
                                                 end)
                                                 UserInputService.WindowFocusReleased:Connect(function()
                                                    game.Players:Chat(":ff me")
-                                                   game.Players:Chat(":name me [Tabbed Out]\n " .. User)
+                                                   game.Players:Chat(":name me <away();>\n " .. User)
                                                 end)
 
-                                                -- AntiBlind Handler
-                                                game:GetService("Players").LocalPlayer.PlayerGui.ChildAdded:Connect(function(child)
-                                                   if (AntiBlind == false) then
-                                                      return
-                                                   end
-                                                   if (child.Name == "EFFECTGUIBLIND") then
-                                                      repeat task.wait() until (child.Parent ~= nil)
-                                                      child:Destroy()
-                                                   end
-                                                end)
                                                 -- // Functions \\ --
       
                                                 function HardFix()
@@ -1893,15 +1828,7 @@
                                                                local Rep = game:GetService("ReplicatedStorage");
                                                                Rep.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w ".. Player .." ".. Text, "All")
                                                             end
-      
-                                                            whisper(User, "[GEARS] Carpet, Laser, Bat, Money, Ironfist, Gun, Bucket, Potato, Taser, Plane [MAP] Rock, Pink, Blue, Red, Heaven, Hell, Blackout [FIXES] Hardfix, Paintfix, Regen, Sweep")
-                                                            task.wait(0.2)
-                                                            whisper(User, "[PSA] Msg, Spam, Unspam [PROTECTION] Shields, Rshields, Antivg [ADDITIONAL] Prefix")
-                                                            task.wait(0.2)
-                                                            whisper(User, "[FUN] Play, Break")
-                                                            task.wait(0.2)
-                                                            whisper(User, "Make sure to refer to your username when using certain commands. For example: 'carpet YourUsername', or 'carpet YourDisplayName'.")
-                                                            task.wait(0.2)
+                                                            whisper(User, "Too lazy to update this list, sorry! 💀")
                                                          end
                                                          if string.sub(chat:lower(), 0, 7) == Pref .. "prefix" then
                                                             local RequestedPrefix = string.sub(chat, 9)
@@ -2135,7 +2062,6 @@
                                                       for i,v in pairs(game.Players.LocalPlayer:FindFirstChildOfClass("Backpack"):GetChildren()) do
                                                          if v:IsA("Tool") then
                                                             v.Parent = game.Players.LocalPlayer.Character
-                                                         end
                                                       end
       
                                                       repeat task.wait() until LP.Character:FindFirstChildOfClass("Tool")
@@ -2152,6 +2078,7 @@
                                                          end
                                                       end
                                                    end
+                                                end
                                                    function UseTools()
                                                       for _,v in pairs(LP.Backpack:GetChildren()) do
                                                          v.Parent = LP.Character
@@ -2200,4 +2127,12 @@
                                                          break
                                                       end
                                                    end
+                                                end
+                                                function handleGearAssignment(gearID, user)
+                                                   if GetMatchingPlayerName(user) then
+                                                      game.Players:Chat(":gear " .. GetMatchingPlayerName(user) .. " " .. gearID)
+                                                   else
+                                                      game.Players:Chat(":gear " .. User .. " " .. gearID)
+                                                   end
+                                                   return true
                                                 end

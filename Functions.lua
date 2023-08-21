@@ -68,7 +68,7 @@ function ServerHop()
         local randomServer = Servers[math.random(1, #Servers)];
 
         if Queue then
-            Queue("loadstring(game:HttpGet('https://raw.githubusercontent.com/traveIing/bender/main/Main.lua'))()")
+            -- Removed Indefinitely
         end
         
             TeleportService:TeleportToPlaceInstance(PlaceId, randomServer, LP)

@@ -8,7 +8,6 @@ local ToggleKey = Enum.KeyCode.Semicolon
 CommandBar.Name = "CommandBar"
 CommandBar.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 CommandBar.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-CommandBar.zIndex = 90000;
 
 Main.Name = "Main"
 Main.Parent = CommandBar
@@ -18,6 +17,7 @@ Main.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Main.BorderSizePixel = 0
 Main.Position = UDim2.new(0.794447303, 0, 0.930463552, 0)
 Main.Size = UDim2.new(0, 292, 0, 42)
+Main.ZIndex = 99999
 
 UICorner.Parent = Main
 

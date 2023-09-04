@@ -8,6 +8,7 @@ local ToggleKey = Enum.KeyCode.Semicolon
 CommandBar.Name = "CommandBar"
 CommandBar.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 CommandBar.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+CommandBar.zIndex = 90000;
 
 Main.Name = "Main"
 Main.Parent = CommandBar
@@ -43,7 +44,7 @@ end
 
 local function onInput(input, gameProcessedEvent)
     if (not gameProcessedEvent) and (input.KeyCode == ToggleKey) then
-        task.wait(0.001)
+        task.wait(0.0001)
         BarTextBox:CaptureFocus()
     end
 end

@@ -36,7 +36,7 @@ function playAudio(req)
         local SetupError = Instance.new("Sound")
         SetupError.Name = "Error Sound"
         SetupError.SoundId = "http://www.roblox.com/asset/?id=1346533206"
-        SetupError.Volume = 2
+        SetupError.Volume = 0.5
         SetupError.Looped = false
         SetupError.archivable = false
         SetupError.Parent = game.Workspace

@@ -140,9 +140,10 @@ local function transformColor(color)
 end
 
 local function prepMapChange()
-game.Players:Chat("gear me 18474459")
-repeat task.wait() until game.Players.LocalPlayer:FindFirstChild("PaintBucket")
-game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.PaintBucket)
+    game.Players:Chat("gear me 18474459")
+    repeat task.wait() until game.Players.LocalPlayer:FindFirstChild("PaintBucket")
+    game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.PaintBucket)
+    task.wait(0.5)
 end
 
 function ChangeMapColor(color)

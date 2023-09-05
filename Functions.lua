@@ -23,7 +23,6 @@ function playAudio(req)
         Intro.archivable = false
         Intro.Parent = game.Workspace
         Intro:Play()
-        print("432")
     elseif (req == "Error") then
         local Error = Instance.new("Sound")
         Error.Name = "Error Sound"
@@ -33,7 +32,6 @@ function playAudio(req)
         Error.archivable = false
         Error.Parent = game.Workspace
         Error:Play()
-        print("8965")
     elseif (req == "SetupError") then
         local SetupError = Instance.new("Sound")
         SetupError.Name = "Error Sound"
@@ -43,7 +41,6 @@ function playAudio(req)
         SetupError.archivable = false
         SetupError.Parent = game.Workspace
         SetupError:Play()
-        print("4821234")
     end
 end
 function muteAudio(req)

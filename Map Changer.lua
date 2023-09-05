@@ -7,7 +7,7 @@
 
 -- // Color Functions
 
-ColorAPI = {}
+Color\-\-\-876%$API = {}
 
 ColorAPI.color = function(Part, color)
 local thread = coroutine.create(function()

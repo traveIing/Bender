@@ -58,7 +58,16 @@ function playAudio(req)
         CONFIRM_ACTION.Looped = false
         CONFIRM_ACTION.archivable = false
         CONFIRM_ACTION.Parent = game.Workspace
-        CONFIRM_ACTION:Play() 
+        CONFIRM_ACTION:Play()
+    elseif (req == "LEAVING_GAME") then
+        local LEAVING_GAME = Instance.new("Sound")
+        LEAVING_GAME.Name = "Error Sound"
+        LEAVING_GAME.SoundId = "http://www.roblox.com/asset/?id=4835664238"
+        LEAVING_GAME.Volume = 0.5
+        LEAVING_GAME.Looped = false
+        LEAVING_GAME.archivable = false
+        LEAVING_GAME.Parent = game.Workspace
+        LEAVING_GAME:Play() 
     end
 end
 function muteAudio(req)

@@ -41,6 +41,15 @@ function playAudio(req)
         SetupError.archivable = false
         SetupError.Parent = game.Workspace
         SetupError:Play()
+    elseif (req == "CrashDetected") then
+        local CrashDetected = Instance.new("Sound")
+        CrashDetected.Name = "Error Sound"
+        CrashDetected.SoundId = "http://www.roblox.com/asset/?id=7383525713"
+        CrashDetected.Volume = 0.5
+        CrashDetected.Looped = false
+        CrashDetected.archivable = false
+        CrashDetected.Parent = game.Workspace
+        CrashDetected:Play()
     end
 end
 function muteAudio(req)

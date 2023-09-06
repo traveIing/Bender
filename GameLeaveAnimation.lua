@@ -30,7 +30,7 @@ game:GetService('StarterGui'):SetCoreGuiEnabled(Enum.CoreGuiType.Chat, false)
 	do
 		TweenService = game:GetService("TweenService")
 		circle = script.Parent
-		tween_info = TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+		tween_info = TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
 		tween_info_sizing = TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
 		final_transparency = 0
 		slide_down_middle_position = UDim2.new(0.37, 0, -0.055, 0)

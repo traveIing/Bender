@@ -7,7 +7,7 @@ GameLeaveAnimation.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 ExpandingCircle_1.Name = "ExpandingCircle"
 ExpandingCircle_1.Parent = GameLeaveAnimation
-ExpandingCircle_1.BackgroundColor3 = Color3.fromRGB(40,40,40)
+ExpandingCircle_1.BackgroundColor3 = Color3.fromRGB(0, 64, 255)
 ExpandingCircle_1.BackgroundTransparency = 0.30000001192092896
 ExpandingCircle_1.BorderColor3 = Color3.fromRGB(0,64,255)
 ExpandingCircle_1.BorderSizePixel = 0

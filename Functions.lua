@@ -26,7 +26,7 @@ function playAudio(req)
     elseif (req == "Error") then
         local Error = Instance.new("Sound")
         Error.Name = "Error Sound"
-        Error.SoundId = "http://www.roblox.com/asset/?id=4841731967"
+        Error.SoundId = "http://www.roblox.com/asset/?id=8551372796"
         Error.Volume = 2
         Error.Looped = false
         Error.archivable = false
@@ -50,6 +50,15 @@ function playAudio(req)
         CrashDetected.archivable = false
         CrashDetected.Parent = game.Workspace
         CrashDetected:Play()
+    elseif (req == "CONFIRM_ACTION") then
+        local CONFIRM_ACTION = Instance.new("Sound")
+        CONFIRM_ACTION.Name = "Error Sound"
+        CONFIRM_ACTION.SoundId = "http://www.roblox.com/asset/?id=1524543584"
+        CONFIRM_ACTION.Volume = 0.5
+        CONFIRM_ACTION.Looped = false
+        CONFIRM_ACTION.archivable = false
+        CONFIRM_ACTION.Parent = game.Workspace
+        CONFIRM_ACTION:Play() 
     end
 end
 function muteAudio(req)

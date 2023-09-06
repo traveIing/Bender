@@ -1,6 +1,3 @@
--- test error this is meant to fail
-flkjf3;2j408312j9081j2;j4j1jlvkmnv$*&#(@$&@#
-
 function PlayLeavingAnimation(delay)
     if (type(delay) == "number") then
         task.wait(delay)

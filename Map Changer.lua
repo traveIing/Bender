@@ -139,15 +139,15 @@ local function transformColor(color)
     return ColorAPI.transformToColor3(BrickColor.new(color))
 end
 
-local function prepMapChange()
+local function prepMapChange(duration)
 game.Players:Chat("gear me 18474459")
-repeat task.wait() until game.Players.LocalPlayer:FindFirstChild("PaintBucket")
+task.wait(duration)
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.PaintBucket)
 end
 
 function ChangeMapColor(color)
 
-prepMapChange()
+prepMapChange(0.5)
 
 coroutine.wrap(function()
 ColorAPI.colorHouse({
@@ -190,6 +190,7 @@ end)
 task.spawn(function()
 ColorAPI.colorPads(transformColor(color))
 end)
+task.wait(0.5)
 game.Players:Chat(":ungear me")
 
 end
@@ -197,7 +198,7 @@ end
 -- // Themes (MISC)
 
 function FixMapColors()
-prepMapChange()
+prepMapChange(0.5)
 task.spawn(function()
 ColorAPI.colorObbyBox(transformColor("Teal"))
 end)
@@ -237,11 +238,12 @@ chiC = transformColor("Sand red"),
 ColorAPI.color(game.Workspace.Terrain["_Game"].Workspace["Baseplate"], transformColor("Bright green"))
 })
 end)
+task.wait(0.5)
 game.Players:Chat(":ungear me")
 end
 
 function Quiving()
-    prepMapChange()
+    prepMapChange(0.5)
     task.spawn(function()
         ColorAPI.colorObbyBox(transformColor("Bright green"))
     end)
@@ -280,5 +282,6 @@ function Quiving()
             ColorAPI.color(game.Workspace.Terrain["_Game"].Workspace["Baseplate"], transformColor("Earth green"))
         })
     end)
+    task.wait(0.5)
     game.Players:Chat(":ungear me")
 end

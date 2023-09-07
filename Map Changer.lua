@@ -1,4 +1,4 @@
-- THIS IS NOT MINE. I just improved it, a lot. Credits to where they are due
+-- THIS IS NOT MINE. I just improved it, a lot. Credits to where they are due
 -- Also, this code literally makes my eyes bleed. Fuck whoever made this dude
 -- And this code isn't even an API???? I'm literally putting a bullet in my 9mm as I type this
 

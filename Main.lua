@@ -33,43 +33,92 @@
          -----------------------------------------------------------------------------------------------------------------------------------------------------
       
          -- For PERSONAL use, NOT code use (touch this! ✅)
-         getgenv().Whitelisted = {} getgenv().Pref = "!" getgenv().ChatlogsSpamText = "ff" getgenv().ChatSpamText = "Text" getgenv().AntiCrash = false;
+         getgenv().Whitelisted = {} getgenv().Pref = "!" getgenv().ChatlogsSpamText = "ff" getgenv().ChatSpamText = "Text" getgenv().AntiCrash = false
       
          -- For CODE use, NOT PERSONAL use (DON'T touch this! ❌)
-         getgenv().WhitelistCount = {} getgenv().Connections = {}  getgenv().WhitelistConnection = {} getgenv().LockedSound = false getgenv().softLagging = false getgenv().Search = {} getgenv().Chaos = false
+         getgenv().WhitelistCount = {} getgenv().Connections = {}  getgenv().WhitelistConnection = {} getgenv().LockedSound = false getgenv().softLagging = false getgenv().Search = {} getgenv().Chaos = false getgenv().CachedPermStatus = nil getgenv().CachedPerson299Status = nil getgenv().AntiPunishEnabled = nil getgenv().AntiKillEnabled = nil getgenv().AntiRocketEnabled = nil getgenv().Disallowed = {"Meowzy"} getgenv().AlreadySentCrashRequest = nil
 
          -----------------------------------------------------------------------------------------------------------------------------------------------------
-      
-         local isKohls, NBCKohlsID, BCKohlsID, placeID, jobID, User, Display, LP, UserInputService, Character, UserInputService, HttpService, openedChatLogs = false, 112420803, 115670532, game.PlaceId, game.JobId, game.Players.LocalPlayer.Name, game.Players.LocalPlayer.DisplayName, game.Players.LocalPlayer, game:GetService("UserInputService"), game.Players.LocalPlayer.Character, game:GetService("UserInputService"), game:GetService("HttpService"), false game:GetService("Workspace").Terrain["_Game"].Admin.Pads:FindFirstChild(game.Players.LocalPlayer.Name .. "'s admin")
-      
+
+         -- Setting Script Variables
+         local isKohls, NBCKohlsID, BCKohlsID, placeID, jobID, User, Display, LP, opened_chatlogs
+         do
+            isKohls = false
+            NBCKohlsID = 112420803
+            BCKohlsID = 115670532
+            placeID = game.PlaceId
+            jobID = game.JobId
+            User = game.Players.LocalPlayer.Name
+            Display = game.Players.LocalPlayer.DisplayName
+            LP = game.Players.LocalPlayer
+            opened_chatlogs = false
+         end
+           
          -- Game Check
          if (game.PlaceId == NBCKohlsID) or (game.PlaceId == BCKohlsID) then
             isKohls = true
-      
-            -- Importing Scripts
             
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/traveIing/bender/main/Progress%20Bar.lua"))()
+            -- Execution Check
+            if not getgenv().Bender_Executed then
+               warn("DBEXPS")
+               getgenv().Bender_Executed = true
+            else
+               warn("DBEXFS")
+               return
+            end
+
+            -- Importing Scripts
+            local failed_scripts = {}
+            local function load_import(link)
+               local success, err pcall(function()
+                  loadstring(game:HttpGet(link))()
+               end)
+               if (not success) and (err ~= nil) then
+                  table.insert(failed_scripts, link)
+               end
+               return true
+            end
+            load_import("https://raw.githubusercontent.com/traveIing/bender/main/Progress%20Bar.lua")
             task.wait(0.5)
-            setProgress(14, "Loading Command Bar...");
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/traveIing/bender/main/Command%20Bar.lua"))()
-            setProgress(28, "Loading Notification System...");
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/traveIing/bender/main/Notification.lua"))()
-            setProgress(42, "Loading Additional Functions..")
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/traveIing/bender/main/Functions.lua"))()
-            setProgress(56, "Loading Profile GUI...")
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/traveIing/bender/main/Profile%20GUI.lua"))()
-            setProgress(70, "Loading Countdown GUI...")
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/traveIing/bender/main/Countdown.lua"))()
-            setProgress(84, "Loading MapColor API...")
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/traveIing/bender/main/Map%20Changer.lua"))()
-            setProgress(85, "Loading Playerlist..");
+            setProgress(7, "Loading Command Bar...")
+            load_import("https://raw.githubusercontent.com/traveIing/bender/main/Command%20Bar.lua")
+            setProgress(14, "Loading Notification System...")
+            load_import("https://raw.githubusercontent.com/traveIing/bender/main/Notification.lua")
+            setProgress(21, "Loading Additional Functions...")
+            load_import("https://raw.githubusercontent.com/traveIing/bender/main/Functions.lua")
+            setProgress(49, "Loading Profile GUI...")
+            load_import("https://raw.githubusercontent.com/traveIing/bender/main/Profile%20GUI.lua")
+            setProgress(67, "Loading Countdown GUI...")
+            load_import("https://raw.githubusercontent.com/traveIing/bender/main/Countdown.lua")
+            setProgress(77, "Loading MapColor API...")
+            load_import("https://raw.githubusercontent.com/traveIing/bender/main/Map%20Changer.lua")
+            setProgress(89, "Loading GameLeaveAnimation...")
+            load_import("https://raw.githubusercontent.com/traveIing/bender/main/GameLeaveAnimation.lua")
+            setProgress(91, "Loading PlayerList...")
             task.spawn(function()
-            game.StarterGui:SetCoreGuiEnabled("PlayerList",  false)
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/traveIing/bender/main/PlayerList.lua"))()
+               game.StarterGui:SetCoreGuiEnabled("PlayerList",  false)
+               load_import("https://raw.githubusercontent.com/traveIing/bender/main/PlayerList.lua")
             end)
-            setProgress(100, "Complete! ☑️");
-      
-      
+            setProgress(100, "Complete! ☑️")
+
+            -- Failed Plugin Manager
+            local alert_error
+            if (#failed_scripts ~= 0) then
+               alert_error = true
+               warn("----------------------------------------")
+               warn("Failed Plugin Manager\n")
+               for _,v in pairs(failed_scripts) do
+                  pcall(function()
+                     local script_name = v:match('/main/(.-)$')
+                     warn(" Couldn't run | " .. script_name)
+                  end)
+               end
+               warn("\nAny features that utilize these modules will not work.")
+               warn("Rejoining will most likely fix this issue. However, if it persists, please join our Discord Server, and report it!")
+               warn("discord.gg/hQdNKfDf8X")
+               warn("----------------------------------------")
+            end
+
             -- Crash Check
             task.spawn(function()
                if (CheckIfCrashed() == true) then
@@ -82,42 +131,35 @@
                   warn("SHECPS")
                end
             end)
-            -- Execution Check
-            if not hasExecuted then
-               warn("DBEXPS")
-               getgenv().hasExecuted = true
-            else
-               warn("DBEXFS")
-               chatNotify("It seems that you may have executed twice; please note that this will cause instability issues. If you did not mean to do so, please say 'rejoin'.", 1, 0, 0)
-               print("As you have executed twice, some aspects of this script may be bugged out. Please say 'rejoin' to resolve this.")
-               isKohls = false;
-            end
       
-            -- Greeting User
-            if isfile("Bender/Status.txt") then
+            -- User Greeting Manager
+            if (not alert_error == true) then
                playAudio("Intro")
-               notify("Bender", "Welcome back, " .. Display .. "!", 2)
+               if (isfile("Bender/Status.txt")) then
+                  notify("Bender", "Welcome back, " .. Display .. "!", 2)
+               else
+                  notify("Bender", "Hello, " .. Display .. "! Thank you for using Bender V1.3!", 3)
+               end
             else
-               playAudio("Intro")
-               notify("Bender", "Hello, " .. Display .. "! Thank you for using Bender V1.3!", 3)
+               playAudio("SetupError")
+               notify("Bender", "Bender ran into some issues during initialization. Please press 'F9', or type '/console' for more information.", 15)
             end
-            -- Kicks if User Isn't In Correct Game
+
          else
             LP:Kick("Sorry, this script is not compatible with this game.")
          end
       
          -- // Startup \\ --
       
-         if isKohls == true then
+         if (isKohls == true) then
       
-            -- New Player Checker --
-      
+            -- New Player Manager --
             if not isfile("Bender/Status.txt") then
       
                function Callback(text)
-                  if text == "Yes" then
+                  if (text == "Yes") then
                      notify("Bender", "Press 'F9', or type '/console' to view a list of commands.", 3)
-                     print("Docs: https://github.com/traveIing/bender/blob/main/Documentation.md")
+                     print("Commands: https://info.joinbender.com/docs")
                      print("Discord: https://discord.gg/UCvJatDRfp")
                   end
                end
@@ -139,9 +181,8 @@
             end
          end
       
-         -- Beta User Checker
-      
-         local function isOnBeta()
+         -- Beta User Manager
+         local function is_on_beta()
             local success, contents = pcall(function()
             return readfile("Bender/Configs/DeveloperBeta.txt")
             end)
@@ -149,18 +190,18 @@
          end
       
          local success, error = pcall(function()
-         local isBeta = isOnBeta()
-         if isBeta then
+         
+         if (is_on_beta() == true) then
             warn("DVBTPS")
-            BetaEnabled = true;
+            BetaEnabled = true
             promptBetaInfo()
          else
-            BetaEnabled = false;
+            BetaEnabled = false
             warn("DVBTFS")
          end
-         end)
+      end)
       
-         if not success then
+         if (not success) then
             warn("Error occurred:", error)
          end
          ------------------------------------------
@@ -191,7 +232,7 @@
                   local HasAdminPad = game:GetService("Workspace").Terrain["_Game"].Admin.Pads:FindFirstChild(v.Name .. "'s admin")
                   local HasPerm = CheckForPerm(v.Name)
                   if (not HasAdminPad) then
-                     if HasPerm == false then
+                     if (HasPerm == false) then
                         game.Players:Chat(":tp " .. v.Name .. " me")
                      elseif (HasAdminPad) and (not HasPerm) then
                         --
@@ -214,7 +255,7 @@
          if string.sub(msg:lower(), 0, 2) == "to" then
             local Player = string.sub(msg, 4)
             for _, v in pairs(game.Players:GetPlayers()) do
-               if v.Name == GetMatchingPlayerName(Player) then
+               if (v.Name == GetMatchingPlayerName(Player)) then
                   LP.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
                   break
                end
@@ -243,66 +284,36 @@
       
          -- // Gears \\ --
       
-         if string.sub(msg:lower(), 0, 6) == "carpet" then
-            local Player = string.sub(msg, 8)
-            handleGearAssignment("225921000", Player)
-         end
-         if string.sub(msg:lower(), 0, 5) == "laser" then
-            local Player = string.sub(msg, 7)
-            handleGearAssignment("130113146", Player)
-         end
-         if string.sub(msg:lower(), 0, 3) == "bat" then
-            local Player = string.sub(msg, 5)
-            handleGearAssignment("55301897", Player)
-         end
-         if string.sub(msg:lower(), 0, 5) == "money" then
-            local Player = string.sub(msg, 7)
-            handleGearAssignment("16722267", Player)
-         end
-         if string.sub(msg:lower(), 0, 8) == "ironfist" then
-            local Player = string.sub(msg, 10)
-            handleGearAssignment("243790334", Player)
-         end
-         if string.sub(msg:lower(), 0, 3) == "gun" then
-            local Player = string.sub(msg, 5)
-            handleGearAssignment("97885508", Player)
-         end
-         if string.sub(msg:lower(), 0, 7) == "pbucket" then
-            local Player = string.sub(msg, 9)
-            handleGearAssignment("18474459", Player)
-         end
-         if string.sub(msg:lower(), 0, 6) == "potato" then
-            local Player = string.sub(msg, 8)
-            handleGearAssignment("25741198", Player)
-         end
-         if string.sub(msg:lower(), 0, 2) == "vg" then
-            local Player = string.sub(msg, 4)
-            handleGearAssignment("94794847", Player)
-         end
-         if string.sub(msg:lower(), 0, 5) == "taser" then
-            local Player = string.sub(msg, 7)
-            handleGearAssignment("82357123", Player)
-         end
-         if string.sub(msg:lower(), 0, 5) == "plane" then
-            local Player = string.sub(msg, 7)
-            handleGearAssignment("163348575", Player)
-         end
-         if string.sub(msg:lower(), 0, 5) == "ivory" then
-            local Player = string.sub(msg, 7)
-            handleGearAssignment("108158379", Player)
-         end
-         if string.sub(msg:lower(), 0, 7) == "velokit" then
-            local Player = string.sub(msg, 9)
-            if GetMatchingPlayerName(Player) then
-               game.Players:Chat(":gear " .. GetMatchingPlayerName(Player) .. " 119917513")
-               game.Players:Chat(":gear " .. GetMatchingPlayerName(Player) .. " 74385399")
-               game.Players:Chat(":gear " .. GetMatchingPlayerName(Player) .. " 287426148")
-            else
-               game.Players:Chat(":gear " .. User .. " 119917513")
-               game.Players:Chat(":gear " .. User .. " 74385399")
-               game.Players:Chat(":gear " .. User .. " 287426148")
-            end
-         end
+         local gearMappings = {
+            ["carpet"] = "225921000",
+            ["laser"] = "130113146",
+            ["bat"] = "55301897",
+            ["money"] = "16722267",
+            ["ironfist"] = "243790334",
+            ["gun"] = "97885508",
+            ["pbucket"] = "18474459",
+            ["potato"] = "25741198",
+            ["vg"] = "94794847",
+            ["taser"] = "82357123",
+            ["plane"] = "163348575",
+            ["ivory"] = "108158379",
+            ["skateboard"] = "200237939"
+        }
+        
+        local keyword = string.match(msg:lower(), "%a+")
+        local player = string.sub(msg, #keyword + 2)
+        
+        local gearID = gearMappings[keyword]
+        
+        if (gearID) then
+         handleGearAssignment(gearID, player)
+      elseif keyword == "velokit" then
+         local targetPlayer = GetMatchingPlayerName(Player) or User
+         game.Players:Chat(":gear " .. targetPlayer .. " 119917513")
+         game.Players:Chat(":gear " .. targetPlayer .. " 74385399")
+         game.Players:Chat(":gear " .. targetPlayer .. " 287426148")
+        end
+        
       
          -- // Map Modifications \\ --
       
@@ -354,6 +365,14 @@
             ChangeMapColor("Really white")
             task.wait(0.5)
             game.Players:Chat(":fogend 10000")
+            notify("Bender", "☑️", 1)
+         end
+         if string.sub(msg:lower(), 0, #msg) == "yellow" then
+            ChangeMapColor("New Yeller")
+            task.wait(0.5)
+            game.Players:Chat(":fogcolor 500 0 0")
+            game.Players:Chat(":fogend 1000")
+            game.Players:Chat(":time 1")
             notify("Bender", "☑️", 1)
          end
          -- Heaven / Hell --
@@ -455,7 +474,7 @@
          if string.sub(msg:lower(), 0, #msg) == "loop" then
             if isLockedAlready == true then
                return
-               end;
+            end
                -- Checking For Sound
                local SoundPlaying, Error = pcall(function()
                if not game:GetService("Workspace").Terrain["_Game"].Folder.Sound then
@@ -468,7 +487,7 @@
                end
       
                if SoundCheck() == true then
-                  getgenv().isLockedAlready = true;
+                  getgenv().isLockedAlready = true
                   local SavedSound = tostring(game:GetService("Workspace").Terrain["_Game"].Folder.Sound.SoundId)
                   local SoundID = tostring(string.match(SavedSound, "%d+$"))
                   notify("Bender", "☑️", 1)
@@ -481,7 +500,7 @@
                      if (SoundCheck() == false) or (game:GetService("Workspace").Terrain["_Game"].Folder.Sound.SoundId ~= SavedSound)
                      or (string.match(SavedSound, "%d+$") == 0) then
                         pcall(function()
-                           game.Players:Chat(":music " .. SoundID);
+                           game.Players:Chat(":music " .. SoundID)
                            game:GetService("Workspace").Terrain["_Game"].Folder.Sound.Playing = true
                            task.wait(1)
                         end)
@@ -493,11 +512,11 @@
                if isLockedAlready == true then
                   local Message = "Sound is Unlocked 📻"
                   LockedSound = false
-                  isLockedAlready = false;
+                  isLockedAlready = false
                   notify("Bender", "Successfully unlocked song!", 1)
                   game.Players:Chat("alert Sound is unlocked")
                else
-                  notifyError("Bender", "A song hasn't been locked yet!", 1);
+                  notifyError("Bender", "A song hasn't been locked yet!", 1)
                end
             end
       
@@ -507,12 +526,12 @@
                local SoundPlaying, Error = pcall(function()
                if not game:GetService("Workspace").Terrain["_Game"].Folder.Sound then
                   return
-                  end;
-                  end);
+               end
+            end)
                   if not SoundPlaying then
-                     notifyError("Bender", "A sound has to be playing in order to fast-forward!", 1);
+                     notifyError("Bender", "A sound has to be playing in order to fast-forward!", 1)
                      return
-                     end;
+                     end
                      -- Variables
                      local Request = string.sub(msg, 9)
                      local Sound = game:GetService("Workspace").Terrain["_Game"].Folder.Sound
@@ -521,8 +540,8 @@
                         notifyError("Bender", "Please specify a position.", 1)
                         return
                      end
-                     game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition = game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition + tonumber(Request); -- Variable didn't work
-                     notify("Bender", "☑️", 1);
+                     game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition = game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition + tonumber(Request) -- Variable didn't work
+                     notify("Bender", "☑️", 1)
                   end
                   if string.sub(msg:lower(), 0, 7) == "reverse" then
       
@@ -530,12 +549,12 @@
                      local SoundPlaying, Error = pcall(function()
                      if not game:GetService("Workspace").Terrain["_Game"].Folder.Sound then
                         return
-                        end;
-                        end);
+                     end
+                  end)
                         if not SoundPlaying then
-                           notifyError("Bender", "A sound has to be playing in order to reverse!", 1);
+                           notifyError("Bender", "A sound has to be playing in order to reverse!", 1)
                            return
-                           end;
+                           end
                            -- Variables
                            local Request = string.sub(msg, 9)
                            local Sound = game:GetService("Workspace").Terrain["_Game"].Folder.Sound
@@ -544,8 +563,8 @@
                               notifyError("Bender", "Please specify a position.", 1)
                               return
                            end
-                           game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition = game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition - tonumber(Request); -- Variable didn't work
-                           notify("Bender", "☑️", 1);
+                           game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition = game:GetService("Workspace").Terrain["_Game"].Folder.Sound.TimePosition - tonumber(Request) -- Variable didn't work
+                           notify("Bender", "☑️", 1)
                         end
                         if string.sub(msg:lower(), 0, 7) == "pbspeed" then
       
@@ -553,12 +572,12 @@
                            local SoundPlaying, Error = pcall(function()
                            if not game:GetService("Workspace").Terrain["_Game"].Folder.Sound then
                               return
-                              end;
-                              end);
+                              end
+                              end)
                               if not SoundPlaying then
-                                 notifyError("Bender", "A sound has to be playing in order to adjust speed!", 1);
+                                 notifyError("Bender", "A sound has to be playing in order to adjust speed!", 1)
                                  return
-                                 end;
+                                 end
                                  -- Variables
                                  local Request = string.sub(msg, 9)
                                  local Sound = game:GetService("Workspace").Terrain["_Game"].Folder.Sound
@@ -567,8 +586,8 @@
                                     notifyError("Bender", "Please specify a position.", 1)
                                     return
                                  end
-                                 game:GetService("Workspace").Terrain["_Game"].Folder.Sound.PlaybackSpeed = tonumber(Request);
-                                 notify("Bender", "☑️", 1);
+                                 game:GetService("Workspace").Terrain["_Game"].Folder.Sound.PlaybackSpeed = tonumber(Request)
+                                 notify("Bender", "☑️", 1)
                               end
       
                               if string.sub(msg:lower(), 0, 6) == "volume" then
@@ -576,12 +595,12 @@
                                  local SoundPlaying, Error = pcall(function()
                                  if not game:GetService("Workspace").Terrain["_Game"].Folder.Sound then
                                     return
-                                    end;
-                                    end);
+                                    end
+                                    end)
                                     if not SoundPlaying then
-                                       notifyError("Bender", "A sound has to be playing in order to adjust volume!", 1);
+                                       notifyError("Bender", "A sound has to be playing in order to adjust volume!", 1)
                                        return
-                                       end;
+                                       end
                                        -- Variables
                                        local Request = string.sub(msg, 8)
                                        local Sound = game:GetService("Workspace").Terrain["_Game"].Folder.Sound
@@ -590,7 +609,7 @@
                                           notifyError("Bender", "Please specify a position.", 1)
                                           return
                                        end
-                                       Sound.Volume = tonumber(Request);
+                                       Sound.Volume = tonumber(Request)
                                        notify("Bender", "☑️", 1)
                                     end
                                     if string.sub(msg:lower(), 0, #msg) == "bypassmute" then
@@ -598,12 +617,12 @@
                                        local SoundPlaying, Error = pcall(function()
                                        if not game:GetService("Workspace").Terrain["_Game"].Folder.Sound then
                                           return
-                                          end;
-                                          end);
+                                          end
+                                          end)
                                           if not SoundPlaying then
                                              notifyError("Bender", "A sound must be playing, or muted in order to do this!", 1.5)
                                              return
-                                             end;
+                                             end
       
                                              local Sound = game:GetService("Workspace").Terrain["_Game"].Folder.Sound
       
@@ -611,7 +630,7 @@
                                                 Sound.Playing = true
                                              end
                                              if Sound.Playing == true then
-                                                notify("Bender", "☑️", 1);
+                                                notify("Bender", "☑️", 1)
                                              else
                                                 notifyError("Bender", "A sound must be playing, or muted in order to do this!", 1.5)
                                              end
@@ -623,13 +642,13 @@
                                              local Request = string.sub(msg, 7)
                                              if Request == "all" or Request == "everyone" then
                                                 Break("all")
-                                                notify("Bender", "☑️", 1);
+                                                notify("Bender", "☑️", 1)
                                              elseif Request == "others" then
                                                 Break("others")
-                                                notify("Bender", "☑️", 1);
+                                                notify("Bender", "☑️", 1)
                                              elseif Request == "friends" then
                                                 Break("friends")
-                                                notify("Bender", "☑️", 1);
+                                                notify("Bender", "☑️", 1)
       
                                              elseif Request == "noadmins" then
                                                 local ranOn = {}
@@ -648,12 +667,12 @@
                                                       end
                                                    end
                                                 end
-                                                notify("Bender", "☑️", 1);
+                                                notify("Bender", "☑️", 1)
       
                                                 -- Additional Player Checks
                                              elseif GetMatchingPlayerName(Request) then
                                                 Break(GetMatchingPlayerName(Request))
-                                                notify("Bender", "☑️", 1);
+                                                notify("Bender", "☑️", 1)
                                              else
                                                 notifyError("Bender", "Please specify who you would like to break!", 1)
                                              end
@@ -665,13 +684,13 @@
       
                                                 if (Request == "all") or (Request == "everyone") then
                                                    Punish("all")
-                                                   notify("Bender", "☑️", 1);
+                                                   notify("Bender", "☑️", 1)
                                                 elseif (Request == "others") then
                                                    Punish("others")
                                                    notify("Bender", "☑️", 1)
                                                 elseif (Request == "friends") then
                                                    Punish("friends")
-                                                   notify("Bender", "☑️", 1);
+                                                   notify("Bender", "☑️", 1)
       
                                                 elseif (Request == "noadmins") then
                                                    local isPunished = {}
@@ -682,7 +701,7 @@
                                                          if (not HasAdminPad) then
                                                             if (not HasPerm) then
                                                                Punish(v.Name)
-                                                               notify("Bender", "☑️", 1);
+                                                               notify("Bender", "☑️", 1)
                                                             else
                                                                --
                                                             end
@@ -694,27 +713,21 @@
       
                                                 elseif GetMatchingPlayerName(Request) then
                                                    Punish(GetMatchingPlayerName(Request))
-                                                   notify("Bender", "☑️", 1);
+                                                   notify("Bender", "☑️", 1)
                                                 end
       
                                              else
-                                                Punish("m"); -- Bypassing Me-Names
+                                                Punish("m") -- Bypassing Me-Names
                                              end
                                           end
-                                          if string.sub(msg:lower(), 0, #msg) == "chaos" then
-                                             if (Chaos == true) then
-                                                notifyError("Bender", "Chaos is already running!", 1)
-                                                return
+                                          if (string.sub(msg:lower(), 0, 7) == "undress") then
+                                             local Request = string.sub(msg, 9)
+                                             local Player = GetMatchingPlayerName(Request)
+                                             if (CheckPlayerExistence(Player) == true) then
+                                                game.Players:Chat(":unshirt " .. Player)
+                                                game.Players:Chat(":unpants " .. Player)
+                                                game.Players:Chat(":unhat " .. Player)
                                              end
-                                             Chaos = true
-                                             if (Chaos == true) then
-                                                notify("Bender", "☑️", 1)
-                                             else
-                                                notifyError("Bender", "Unexpected error.", 1)
-                                             end
-                                          end
-                                          if string.sub(msg:lower(), 0, #msg) == "rchaos" then
-
                                           end
       
                                           -- // Name Bypasses \\ --
@@ -747,22 +760,73 @@
                                           if string.sub(msg:lower(), 0, #msg) == "antic" then
                                              notify("Bender", "☑️", 1)
                                              Connections[#Connections + 1] = game:GetService("RunService").RenderStepped:Connect(function()
-                                                for _, t in pairs(game.Players:GetPlayers()) do
-                                                   local function findGear(gearName)
-                                                      return t.Character:FindFirstChild(gearName) or t.Backpack:FindFirstChild(gearName)
-                                                   end
-                                                   if t.Name ~= User then
-                                                      if
-                                                      findGear("VampireVanquisher") or
-                                                      findGear("OrinthianSwordAndShield") then
-                                                         local Crasher = t.Name
-                                                         game.Players:Chat(":ungear " .. Crasher)
-                                                         break
+                                                pcall(function()
+                                                   for _, t in pairs(game.Players:GetPlayers()) do
+                                                      if (t.Name ~= User) then
+                                                            if
+                                                            (t.Character:FindFirstChild("VampireVanquisher")) or (t.Backpack:FindFirstChild(("VampireVanquisher")) or
+                                                            (t.Character:FindFirstChild("OrinthianSwordAndShield")) or (t.Backpack:FindFirstChild("OrinthianSwordAndShield")))
+                                                            then
+                                                               game.Players:Chat(":ungear " .. t.Name)
+                                                               break
+                                                            end
+                                                         end
                                                       end
-                                                   end
-                                                end
-                                             end)
+                                                   end)
+                                                end)
+                                             end
+
+                                          if (string.sub(msg:lower(), 0, #msg) == "antipunish") then
+                                             if (getgenv().AntiPunishEnabled ~= true) then
+                                                game.Players:Chat(":unpunish me")
+                                                getgenv().AntiPunishEnabled = true
+                                                notify("Bender", "☑️", 1)
+                                             else
+                                                notify("Bender", "AntiPunish is already enabled!", 1)
+                                             end
                                           end
+                                          if (string.sub(msg:lower(), 0, #msg) == "noantipunish") then
+                                             if (getgenv().AntiPunishEnabled == true) then
+                                                getgenv().AntiPunishEnabled = false
+                                                notify("Bender", "☑️", 1)
+                                             else
+                                                notify("Bender", "AntiPunish is not enabled.", 1)
+                                             end
+                                          end
+
+                                          if (string.sub(msg:lower(), 0, #msg) == "antikill") then
+                                             if (not getgenv().AntiKillEnabled == true) then
+                                                getgenv().AntiKillEnabled = true
+                                                notify("Bender", "☑️", 1)
+                                             else
+                                                notify("Bender", "AntiKill is already enabled!", 1)
+                                             end
+                                          end
+                                          if (string.sub(msg:lower(), 0, #msg) == "noantikill") then
+                                             if (getgenv().AntiKillEnabled == true) then
+                                                getgenv().AntiKillEnabled = false
+                                                notify("Bender", "☑️", 1)
+                                             else
+                                                notify("Bender", "AntiKill is not enabled.", 1)
+                                             end
+                                          end
+                                          if (string.sub(msg:lower(), 0, #msg) == "antirocket") then
+                                             if (getgenv().AntiRocketEnabled ~= true) then
+                                                getgenv().AntiRocketEnabled = true
+                                                notify("Bender", "☑️", 1)
+                                             else
+                                                notify("Bender", "AntiRocket is already enabled!", 1)
+                                             end
+                                          end
+                                          if (string.sub(msg:lower(), 0, #msg) == "noantirocket") then
+                                             if (getgenv().AntiRocketEnabled == true) then
+                                                getgenv().AntiRocketEnabled = false
+                                                notify("Bender", "☑️", 1)
+                                             else
+                                                notify("Bender", "AntiRocket is not enabled.", 1)
+                                             end
+                                          end
+
                                           if string.sub(msg:lower(), 0, #msg) == "antianchor" then
                                              _G.antianchor = true
                                              while _G.antianchor == true do
@@ -783,10 +847,10 @@
                                                 notifyError("Bender", GetMatchingPlayerName(Player) .. " is already Gear-Banned!", 1)
                                                 return
                                              end
-                                             local storedUser = Instance.new("ScreenGui");
-                                             storedUser.Name = GetMatchingPlayerName(Player);
-                                             storedUser.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui");
-                                             storedUser.ResetOnSpawn = false;
+                                             local storedUser = Instance.new("ScreenGui")
+                                             storedUser.Name = GetMatchingPlayerName(Player)
+                                             storedUser.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+                                             storedUser.ResetOnSpawn = false
                                              if (game.Players.LocalPlayer.PlayerGui:FindFirstChild(storedUser.Name)) then
                                                 notify("Bender", "☑️", 1)
                                              end
@@ -810,14 +874,14 @@
       
                                           if string.sub(msg:lower(), 0, 9) == "gearunban" then
                                              local Player = string.sub(msg, 11)
-                                             local callingPoint = game.Players.LocalPlayer.PlayerGui:FindFirstChild(GetMatchingPlayerName(Player));
+                                             local callingPoint = game.Players.LocalPlayer.PlayerGui:FindFirstChild(GetMatchingPlayerName(Player))
                                              if (checkGearBanStatus(GetMatchingPlayerName(Player)) == true) then
                                                 callingPoint:Destroy()
-                                                local sameCallingPoint = game.Players.LocalPlayer.PlayerGui:FindFirstChild(GetMatchingPlayerName(Player));
+                                                local sameCallingPoint = game.Players.LocalPlayer.PlayerGui:FindFirstChild(GetMatchingPlayerName(Player))
                                                 if (not sameCallingPoint) then
                                                    notify("Bender", "☑️", 1)
                                                 else
-                                                   --
+                                                   notify("Bender", "This person isn't GearBanned.", 1)
                                                 end
                                              end
                                           end
@@ -863,7 +927,7 @@
                                              HardFix()
                                           end
                                           if string.sub(msg:lower(), 0, #msg) == "paintfix" then
-                                             FixMapColors();
+                                             FixMapColors()
                                              task.wait(0.25)
                                              notify("Bender", "☑️", 1)
                                           end
@@ -882,8 +946,6 @@
                                                 task.spawn(function()
                                                 if v:IsA("Part") then
                                                    v.Velocity = Vector3.new(0, 0, 0)
-                                                else
-                                                   --
                                                 end
                                              end)
                                           end
@@ -896,18 +958,17 @@
       
                                           -- // Defensive Commands \\ --
                                                                            
-                                          if string.sub(msg:lower(), 0, #msg) == "close" then
-                                             print("This command is currently being reworked; expect it to work in the future")
+                                          --[[if string.sub(msg:lower(), 0, #msg) " then
+                                             print("This command is currently being reworked expect it to work in the future")
                                              return
-                                          end
+                                          end]]
       
                                           if string.sub(msg:lower(), 0, #msg) == "pclose" then
-                                             notify("Bender", "...", 0.5)
                                              local HasPersons = CheckForPersons(LP.Name)
                                              local Timer = 1
       
                                              -- Checking For Persons
-                                             if HasPersons then
+                                             if (HasPersons) then
                                                 -- Setting Up Crash
                                                 notify("Bender", "Attempting to crash..", 1)
                                                 game.Players:Chat(":respawn all")
@@ -922,7 +983,7 @@
                                                    game.Players:Chat("shield/all/all/all")
                                                    end)
                                                    -- Breaking Loop
-                                                   if Timer == 150 then
+                                                   if (Timer == 100) then
                                                       if CheckForCrash() == true then
                                                          notify("Bender", "Server Crashed, Switching Servers..", 1)
                                                          task.wait(0.25)
@@ -955,10 +1016,9 @@
                                                 notifyError("Bender", "Softlag is already running!", 1)
                                                 return
                                              end
-                                             _G.softLagging = true;
+                                             _G.softLagging = true
       
                                              local Duration = tonumber(string.sub(msg, 9))
-                                             notify("Bender", "...", 0.5)
                                              local HasAdminPad = game:GetService("Workspace").Terrain["_Game"].Admin.Pads:FindFirstChild(LP.Name .. "'s admin")
                                              local HasPerm = CheckForPerm(LP.Name)
                                              if (HasAdminPad) or (HasPerm == true) then
@@ -967,8 +1027,8 @@
                                                    task.spawn(function()
                                                    Countdown(Duration)
                                                    end)
-                                                   local stopLag = false;
-                                                   local finished = false;
+                                                   local stopLag = false
+                                                   local finished = false
                                                    local crashFunc = coroutine.create(function()
                                                    if (stopLag) then
                                                       coroutine.yield()
@@ -985,8 +1045,8 @@
                                                       end
                                                       end)
                                                    end
-                                                   finished = true;
-                                                   LostAdmin = false;
+                                                   finished = true
+                                                   LostAdmin = false
                                                    coroutine.yield()
                                                    end)
                                                    coroutine.resume(crashFunc)
@@ -1014,7 +1074,7 @@
                                                          game.Players:Chat(":fix")
                                                       end
                                                       notify("Bender", "Lag Finished! ☑️", 1)
-                                                      _G.softLagging = false;
+                                                      _G.softLagging = false
                                                    else
                                                       notifyError("Bender", "The second argument must be a number!", 1)
                                                    end
@@ -1027,10 +1087,9 @@
                                                    notifyError("Bender", "Hardlag is already running!", 1)
                                                    return
                                                 end
-                                                _G.hardLagging = true;
+                                                _G.hardLagging = true
       
                                                 local Duration = tonumber(string.sub(msg, 9))
-                                                notify("Bender", "...", 0.5)
                                                 local HasAdminPad = game:GetService("Workspace").Terrain["_Game"].Admin.Pads:FindFirstChild(LP.Name .. "'s admin")
                                                 local HasPerm = CheckForPerm(LP.Name)
                                                 if (HasAdminPad) or (HasPerm == true) then
@@ -1041,8 +1100,8 @@
                                                       task.spawn(function()
                                                       Countdown(Duration)
                                                       end)
-                                                      local stopLag = false;
-                                                      local finished = false;
+                                                      local stopLag = false
+                                                      local finished = false
                                                       local crashFunc = coroutine.create(function()
                                                       if (stopLag) then
                                                          coroutine.yield()
@@ -1069,8 +1128,8 @@
                                                          end
                                                          end)
                                                       end
-                                                      finished = true;
-                                                      LostAdmin = false;
+                                                      finished = true
+                                                      LostAdmin = false
                                                       coroutine.yield()
                                                       end)
                                                       coroutine.resume(crashFunc)
@@ -1090,7 +1149,7 @@
                                                             notify("Bender", "Lost admin, yielding..")
                                                             FixMapColors()
                                                             game:GetService("RunService"):Set3dRenderingEnabled(true)
-                                                            _G.hardLagging = false;
+                                                            _G.hardLagging = false
                                                             return
                                                          end
                                                          notify("Bender", "Recovering.. 🤠", 1)
@@ -1101,16 +1160,16 @@
                                                             game.Players:Chat(":clean")
                                                          end
                                                          notify("Bender", "Lag Finished! ☑️", 1)
-                                                         _G.hardLagging = false;
+                                                         _G.hardLagging = false
                                                          game:GetService("RunService"):Set3dRenderingEnabled(true)
                                                          FixMapColors()
                                                       else
                                                          notifyError("Bender", "The second argument must be a number!", 1)
-                                                         _G.hardLagging = false;
+                                                         _G.hardLagging = false
                                                       end
                                                    else
                                                       notifyError("Bender", "You must have admin in order to use this command!", 1)
-                                                      _G.hardLagging = false;
+                                                      _G.hardLagging = false
                                                    end
                                                 end
                                                 if string.sub(msg:lower(), 0, #msg) == "vclose" then
@@ -1129,12 +1188,12 @@
                                                             if (LP.Backpack:FindFirstChildOfClass("Tool")) then
                                                                game.Players:Chat(":ungear " .. User)
                                                             end
-                                                            game.Players:Chat("vg")
-                                                            repeat task.wait() until LP.Backpack:FindFirstChild("VampireVanquisher")
+                                                            game.Players:Chat(":gear me 94794847")
+                                                            repeat task.wait() until (LP.Backpack:FindFirstChild("VampireVanquisher"))
                                                             EquipTool()
                                                             task.wait(0.5)
                                                             for i = 1, 25 do
-                                                               game.Players:Chat("size me .3")
+                                                               game.Players:Chat("unpaint me")
                                                             end
                                                             FinishedCrashAttempt = true
                                                          end)
@@ -1143,7 +1202,7 @@
                                                          task.wait(0.25)
                                                          if (CheckForCrash() == true) then
                                                             notify("Bender", "Server Crashed, Switching Servers..", 1)
-                                                            ServerHop()
+                                                            --ServerHop()
                                                          else
                                                             notifyError("Bender", "ERROR: HasCrashed = " .. tostring(CheckForCrash()), 5)
                                                             return
@@ -1154,18 +1213,21 @@
                                                       end
                                                    end
       
-                                                -- // Other Scripts \\ --
+                                                -- // Plugins \\ --
       
                                                 if string.sub(msg:lower(), 0, #msg) == "infy" then
                                                    loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
                                                 end
+                                                if (string.sub(msg:lower(), 0, #msg) == "rspy") then
+                                                   loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/SimpleSpyV3/main.lua"))()
+                                                end
                                                 if string.sub(msg:lower(), 0, #msg) == "chatlogs" then
-                                                   if (openedChatLogs == true) then
-                                                      notify("Bender", "ChatLogs has already been opened!", 1)
+                                                   if (opened_chatlogs == true) then
+                                                      notify("Bender", "ChatLogs has already been opened! (Have you tried opening comommand prompt?)", 1)
                                                       return
                                                    end
                                                    notify("Bender", "Please wait..", 1)
-                                                   openedChatLogs = true
+                                                   opened_chatlogs = true
                                                    loadstring(game:HttpGet("https://raw.githubusercontent.com/traveIing/bender/main/Chat%20Logs.lua"))()
                                                 end
                                                 if string.sub(msg:lower(), 0, #msg) == "dex" then
@@ -1186,9 +1248,8 @@
                                                    local Message = string.sub(msg, 6)
                                                    _G.Spam = true
                                                    while _G.Spam == true do
-                                                      task.wait()
+                                                      task.wait(.000001)
                                                       game.Players:Chat(Message)
-                                                      task.wait()
                                                    end
                                                 end
                                                 if string.sub(msg:lower(), 0, 6) == "unspam" then
@@ -1196,7 +1257,7 @@
                                                 end
       
                                                 -- // Teleport Locations \\ --
-      
+
                                                 if string.sub(msg:lower(), 0, 4) == "pads" then
                                                    LP.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(-41, 4, 35))
                                                 end
@@ -1269,24 +1330,6 @@
                                                       end
                                                    end
                                                 end
-                                                if string.sub(msg:lower(), 0, 9) == "permcheck" then
-                                                   local Player = string.sub(msg, 11)
-                                                   if GetMatchingPlayerName(Player) == "No player found." then
-                                                      notifyError("Bender", "'" .. Player .. "' does not exist!", 1)
-                                                   elseif GetMatchingPlayerName(Player) == "Multiple players found." then
-                                                      notifyError("Bender", "Multiple Players Found.", 1)
-                                                   elseif GetMatchingPlayerName(Player) == "Given input is too long." then
-                                                      notifyError("Bender", "'" .. Player .. "' does not exist!", 1)
-                                                   elseif not GetMatchingPlayerName(Player) then
-                                                      notifyError("Bender", "Please specify who you want to check.", 1)
-                                                   else
-                                                      if CheckForPerm(GetMatchingPlayerName(Player)) == true then
-                                                         notify("Bender", "'" .. GetMatchingPlayerName(Player) .. "' has perm!", 1);
-                                                      else
-                                                         notify("Bender", "'" .. GetMatchingPlayerName(Player) .. "' doesn't have perm!", 1);
-                                                      end
-                                                   end
-                                                end
       
                                                 -- // Utilities \\ --
       
@@ -1308,13 +1351,12 @@
                                                 -- Roblox Utilities
                                                 if string.sub(msg:lower(), 0, #msg) == "exit" then
                                                    task.wait(0.2)
-                                                   game:Shutdown()
+                                                   HandleGameLeave(true, false)
                                                 end
                                                 if string.sub(msg:lower(), 0, #msg) == "rejoin" or string.sub(msg:lower(), 0, #msg) == "rj" then
                                                    Rejoin()
                                                 end
                                                 if string.sub(msg:lower(), 0, #msg) == "clearlogs" then
-                                                   notify("Bender", "...", 0.5)
                                                    ClearLogs()
                                                    notify("Bender", "☑️", 1)
                                                 end
@@ -1355,6 +1397,7 @@
                                                       break
                                                    end
                                                 end
+                                               
                                                 -- // API Utilities
                                                 if string.lower(string.sub(msg, 1, 6)) == "lookup" then
                                                    local Request = string.sub(msg, 8)
@@ -1411,13 +1454,16 @@
                                                 -- Commands
 
                                                 if split[1] == "rlag" then
-                                                   notify("Bender (BETA)", "...", 0.5)
+                                                   if not (BetaEnabled == true) then
+                                                      return
+                                                   end
                                                    -- Variables
+                                                   local old_antirocket_variable = getgenv().AntiRocketEnabled
+                                                   local finished_lagging
                                                    local Player = split[2]
                                                    local checkedUser = GetMatchingPlayerName(Player)
                                                    local psUser = checkedUser .. "/"
                                                    local Reason = rest2
-                                                   print(Reason)
                                                    local HasAdminPad = game:GetService("Workspace").Terrain["_Game"].Admin.Pads:FindFirstChild(LP.Name .. "'s admin")
                                                    local HasPerm = CheckForPerm(LP.Name)
                                                    local HasAdmin = (HasPerm == true) or (HasAdminPad)
@@ -1430,37 +1476,29 @@
                                                          return
                                                       end
                                                       if checkedUser ~= "Given input is too long." and checkedUser ~= "Multiple players found." and checkedUser ~= "No player found." then
-                                                         -- Setting Up Lag
-                                                         local finishedLagging = false;
-                                                         chatNotify("PS: This command will 100% lag the server if it's successful, just reset the person you're lagging to stop it.", 800)
-                                                         task.spawn(function()
+                                                         notify("Bender", "Lagging..", 1)
                                                             game.Players:Chat(":respawn " .. checkedUser)
                                                             game.Players:Chat(":setgrav " .. checkedUser .. " 1500")
+                                                            game.Players:Chat(":speed " .. checkedUser .. " 0")
+                                                               getgenv().AntiRocketEnabled = true
                                                             -- Setting Lag Message
                                                             if (Reason) then
-                                                               LagMessage = Reason;
+                                                               LagMessage = Reason
                                                             else
-                                                               LagMessage = "Unspecified.";
+                                                               LagMessage = "Unspecified."
                                                             end
                                                             game.Players:Chat(":blind " .. checkedUser)
                                                             task.wait(0.25)
                                                             game.Players:Chat("pm/" .. checkedUser .. "/ \n\n\n\n\n\n\n You were lagged for the following reason: \n\n\n\n\n\n\n\n\n\n " .. LagMessage)
                                                             task.wait(0.25)
                                                             -- Lagging Player
-                                                            for i = 1, 100 do
+                                                            for i = 1, 1000 do
+                                                               task.wait(.00001)
+                                                               game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players:FindFirstChild(checkedUser).Character.HumanoidRootPart.CFrame * CFrame.new(0,0,2) * CFrame.Angles(0,math.rad(180),0)
                                                                game.Players:Chat("rocket/" .. psUser .. psUser .. psUser)
+                                                               game.Players:Chat("rocket/me/me/me")
                                                             end
-                                                            task.wait(0.5)
-                                                            game.Players:Chat(":trip " .. checkedUser)
-                                                            game.Players:Chat(":size " .. checkedUser .. " nan")
-                                                            task.wait(0.25)
-                                                            for i = 1, 5 do
-                                                            game.Players:Chat(":clone " .. checkedUser)
-                                                            end
-                                                            finishedLagging = true;
-                                                         end)
-                                                         repeat task.wait() until finishedLagging == true;
-                                                         notify("Bender (BETA)", "☑️", 1)
+                                                            notify("Bender (BETA)", "☑️", 1)
                                                       else
                                                          notifyError("Bender (BETA)", "Invalid user.", 1)
                                                       end
@@ -1470,11 +1508,14 @@
                                                    end
                                                 end
                                                 if string.sub(msg:lower(), 0, #msg) == "overridechecks" then
+                                                   if not (BetaEnabled == true) then
+                                                      return
+                                                   end
                                                    function CheckForPerm() 
-                                                      return true;
+                                                      return true
                                                    end
                                                    function CheckForPersons()
-                                                      return true;
+                                                      return true
                                                    end
                                                    notify("Bender (BETA)", "☑️", 1)
                                                 end
@@ -1491,7 +1532,7 @@
                                                    notify("Bender (BETA)", "Fetching user data...", 1)
                                                    -- Finding Player's ID
                                                    local infoRequest = HttpRequest({
-                                                      Url = "https://api.joinbender.com/roblox/LookupAPI/userinfo.php?username=" .. Request;
+                                                      Url = "https://api.joinbender.com/roblox/LookupAPI/userinfo.php?username=" .. Request
                                                    })
                                                    for i, json in pairs(infoRequest) do
                                                       if (type(json) == "string") then
@@ -1519,6 +1560,9 @@
                                                    game.Players:Chat("msg :)")
                                                 end
                                                 if string.sub(msg:lower(), 0, 4) == "void" then
+                                                   if not (BetaEnabled == true) then
+                                                      return
+                                                   end
                                                    -- Variables
                                                    local Received, Player, FireLaser
                                                    do
@@ -1671,13 +1715,13 @@
       
                                                 -- Whitelist Handler
                                                 Connections[#Connections + 1] = game.Players.PlayerAdded:Connect(function(Player)
-                                                if table.find(Whitelisted, Player.Name) then
-                                                   game.Players:Chat("msg Whitelisted player '" .. Player.DisplayName .. "' joined!")
-                                                   game.Players:Chat("rewl " .. Player.Name)
-                                                   game.Players:Chat(":pm " .. Player.Name .. " You have been whitelisted! Your prefix is '" .. Pref .. "', say '" .. Pref .. "help' for a list of commands!")
-                                                else
-                                                   return
-                                                end
+                                                   if table.find(Whitelisted, Player.Name) then
+                                                      game.Players:Chat("msg Whitelisted player '" .. Player.DisplayName .. "' joined!")
+                                                      game.Players:Chat("rewl " .. Player.Name)
+                                                      game.Players:Chat(":pm " .. Player.Name .. " You have been whitelisted! Your prefix is '" .. Pref .. "', say '" .. Pref .. "help' for a list of commands!")
+                                                   elseif (table.find(Disallowed, Player.Name)) or (table.find(Disallowed, Player.DisplayName)) then
+                                                      game.Players:Chat("rlag " .. Player.Name)
+                                                   end
                                                 end)
       
                                                 -- File/Folder Handler
@@ -1697,6 +1741,68 @@
                                                    writefile("Bender/Status.txt", "Bender")
                                                 end
 
+                                                -- AntiKill Handler
+                                                task.spawn(function()
+                                                   while task.wait() do
+                                                      pcall(function()
+                                                         if (LP.Character.Humanoid.Health == 0) and (getgenv().AntiKillEnabled == true) then
+                                                            task.wait(.001)
+                                                            game.Players:Chat(":reset me")
+                                                         end
+                                                      end)
+                                                   end
+                                                end)
+
+                                                -- AntiPunish Handler
+                                                game:GetService("Lighting").ChildAdded:Connect(function(child)
+                                                   repeat task.wait() until (child)
+                                                   if (child.Name == LP.Name) and (getgenv().AntiPunishEnabled == true) then
+                                                      task.wait(0.001)
+                                                      game.Players:Chat(":unpunish me")
+                                                   end
+                                                end)
+
+                                                -- AntiRocket Handler
+                                                workspace.DescendantAdded:Connect(function(Descendant)
+                                                   if (Descendant.Name == "Rocket") and (getgenv().AntiRocketEnabled == true) then
+                                                      repeat task.wait(.000001) until (Descendant.Parent)
+                                                      Descendant.CanCollide = false
+                                                      Descendant.CanTouch = false
+                                                   end
+                                               end)
+
+                                               -- Crashed Server Handler
+                                               task.spawn(function()
+                                                while task.wait() do
+                                                   if (CheckForCrash() == true) and (not getgenv().AlreadySentCrashRequest == true) then
+                                                      getgenv().AlreadySentCrashRequest = true
+                                                      playAudio("CrashDetected")
+                                                      local function crash_callback(text)
+                                                         if (text == "Switch") then
+                                                            playAudio("CONFIRM_ACTION")
+                                                            notify("Bender", "Switching servers..", 1)
+                                                            HandleGameLeave(true, true)
+                                                         elseif (text == "Leave Game") then
+                                                            playAudio("CONFIRM_ACTION")
+                                                            task.wait(0.9)
+                                                            HandleGameLeave(true, false)
+                                                         end
+                                                      end
+                                                      local bind = Instance.new("BindableFunction")
+                                                      bind.OnInvoke = crash_callback
+                                                      game.StarterGui:SetCore("SendNotification", {
+                                                         Title = "Bender",
+                                                         Text = "It looks like your server just crashed. What would you like to do?",
+                                                         Button1 = "Switch",
+                                                         Button2 = "Leave Game",
+                                                         Duration = 9e9 + 9e9,
+                                                         Callback = bind
+                                                      })
+                                                   end
+                                                end
+                                             end)
+                                             
+
 
                                                 -- // Functions \\ --
       
@@ -1707,7 +1813,7 @@
                                                    game.Players:Chat(":removetools all")
                                                    game.Players:Chat(":unchar all")
                                                    game.Players:Chat(":music")
-                                                   FixMapColors();
+                                                   FixMapColors()
                                                 end
       
                                                 function Regen()
@@ -1814,9 +1920,9 @@
                                                             game.Players:Chat("pm " .. User .. " A list of commands has been whispered to you via chat!")
       
                                                             local function whisper(user, text)
-                                                               local Player = user;
-                                                               local Text = text;
-                                                               local Rep = game:GetService("ReplicatedStorage");
+                                                               local Player = user
+                                                               local Text = text
+                                                               local Rep = game:GetService("ReplicatedStorage")
                                                                Rep.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w ".. Player .." ".. Text, "All")
                                                             end
                                                             whisper(User, "Too lazy to update this list, sorry! 💀")
@@ -1848,9 +1954,7 @@
                                                 end
       
                                                 function Punish(Player)
-                                                   -- Playing Silence Command Sound
                                                    game.Players:Chat(":music 821439273")
-                                                   -- Punish Command Code
                                                    game.Players:Chat(":explode " .. Player)
                                                    local Random = math.random(1, 1000)
                                                    game.Players:Chat(":unpunish " .. Player .. " " .. Random)
@@ -1870,14 +1974,12 @@
                                                    for i = 1, 11 do
                                                       game.Players:Chat(":punish " .. Player .. " " .. Random)
                                                    end
-                                                   task.wait(4)
-                                                   game.Players:Chat(":music 0"); -- If no audio is playing
                                                 end
       
       
                                                 function CheckForCrash()
                                                    local Ping1 = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString(), " "
-                                                   task.wait(1)
+                                                   task.wait(3)
                                                    local Ping2 = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString(), " "
       
                                                    if Ping1 == Ping2 then
@@ -1888,22 +1990,32 @@
                                                 end
       
                                                 function CheckForPerm(Player)
-                                                   for _,v in pairs(game.Players:GetChildren()) do
-                                                      if v.Name == Player then
-                                                         local PermNBC = 66254
-                                                         local PermBC =  64354
-                                                         local UserID = v.UserId
-      
-                                                         if string.match(game:HttpGet("https://inventory.roblox.com/v1/users/" .. UserID .. "/items/GamePass/" .. PermNBC), PermNBC)
-                                                         or string.match(game:HttpGet("https://inventory.roblox.com/v1/users/" .. UserID .. "/items/GamePass/" .. PermBC), PermBC) then
-                                                            return true
-                                                         else
-                                                            return false
-                                                         end
-                                                         break
-                                                      end
+                                                   if (getgenv().CachedPermStatus ~= true) and (getgenv().CachedPermStatus ~= false) or (Player ~= User) then
+                                                       for _,v in pairs(game.Players:GetChildren()) do
+                                                           if (v.Name == Player) then
+                                                            local cache_data = function(bool)
+                                                               if (v.Name ~= User) then
+                                                                  getgenv().CachedPermStatus = bool
+                                                               end
+                                                            end
+                                                               local PermNBC = 66254
+                                                               local PermBC = 64354
+                                                               local UserID = v.UserId
+                                                               if string.match(game:HttpGet("https://inventory.roblox.com/v1/users/" .. UserID .. "/items/GamePass/" .. PermNBC), PermNBC)
+                                                               or string.match(game:HttpGet("https://inventory.roblox.com/v1/users/" .. UserID .. "/items/GamePass/" .. PermBC), PermBC) then 
+                                                                  cache_data(true)
+                                                                  return true
+                                                               else
+                                                                  cache_data(false)
+                                                                  return false
+                                                               end
+                                                               break
+                                                           end
+                                                       end
+                                                   else
+                                                       return getgenv().CachedPermStatus
                                                    end
-                                                end
+                                               end      
       
                                                 function EndWhitelist()
                                                    for _,Connection in ipairs(WhitelistConnection) do
@@ -1943,29 +2055,34 @@
                                                 end
       
                                                 function CheckForPersons(Player)
-                                                   for _,v in pairs(game.Players:GetChildren()) do
-                                                      if v.Name == Player then
-                                                         local PersonNBC = 35748
-                                                         local PersonBC =  37127
-                                                         local UserID = v.UserId
-      
-                                                         if string.match(game:HttpGet("https://inventory.roblox.com/v1/users/" .. UserID .. "/items/GamePass/" .. PersonNBC), PersonNBC)
-                                                         or string.match(game:HttpGet("https://inventory.roblox.com/v1/users/" .. UserID .. "/items/GamePass/" .. PersonBC), PersonBC) then
-                                                            return true
-                                                         else
-                                                            return false
+                                                   if (getgenv().CachedPerson299Status ~= true) and (getgenv().CachedPerson299Status ~= false) then
+                                                      for _,v in pairs(game.Players:GetChildren()) do
+                                                         if (v.Name == Player) then
+                                                            local PersonNBC = 35748
+                                                            local PersonBC =  37127
+                                                            local UserID = v.UserId
+                                                            if string.match(game:HttpGet("https://inventory.roblox.com/v1/users/" .. UserID .. "/items/GamePass/" .. PersonNBC), PersonNBC)
+                                                            or string.match(game:HttpGet("https://inventory.roblox.com/v1/users/" .. UserID .. "/items/GamePass/" .. PersonBC), PersonBC) then
+                                                               getgenv().CachedPerson299Status = true
+                                                               return true
+                                                            else
+                                                               getgenv().CachedPerson299Status = false
+                                                               return false
+                                                            end
+                                                            break
                                                          end
-                                                         break
                                                       end
+                                                   else
+                                                      return getgenv().CachedPerson299Status
                                                    end
                                                 end
       
                                                 function checkGearBanStatus(req)
-                                                   local storedUserCallingPoint = game.Players.LocalPlayer.PlayerGui:FindFirstChild(req);
+                                                   local storedUserCallingPoint = game.Players.LocalPlayer.PlayerGui:FindFirstChild(req)
                                                    if (storedUserCallingPoint) then
-                                                      return true;
+                                                      return true
                                                    else
-                                                      return false;
+                                                      return false
                                                    end
                                                 end
       
@@ -1982,7 +2099,7 @@
                                                    game.Players:Chat(":explode " .. plr)
                                                    task.wait(0.25)
                                                    game.Players:Chat(":clone " .. plr)
-                                                   return true;
+                                                   return true
                                                 end
                                                 function EquipTool()
                                                    for _, Item in pairs(LP.Backpack:GetDescendants()) do
@@ -2016,7 +2133,7 @@
                                                    if (toggle == true) then
                                                       writefile("Bender/Configs/DeveloperBeta.txt", "true")
                                                       if readfile("Bender/Configs/DeveloperBeta.txt", "true") then
-                                                         BetaEnabled = true;
+                                                         BetaEnabled = true
                                                          return true
                                                       else
                                                          return false
@@ -2025,7 +2142,7 @@
                                                    if (toggle == false) then
                                                       writefile("Bender/Configs/DeveloperBeta.txt", "false")
                                                       if readfile("Bender/Configs/DeveloperBeta.txt", "false") then
-                                                         BetaEnabled = false;
+                                                         BetaEnabled = false
                                                          return true
                                                       else
                                                          return false
@@ -2043,7 +2160,7 @@
                                                       local Backpack = game.Players.LocalPlayer:FindFirstChildOfClass("Backpack")
       
                                                       game.Players:Chat("god all")
-                                                      LP.Character.HumanoidRootPart.Anchored = true;
+                                                      LP.Character.HumanoidRootPart.Anchored = true
                                                       game.Players:Chat("name me")
                                                       game.Players:Chat("thaw me")
                                                       for i = 1, 10 do
@@ -2126,4 +2243,29 @@
                                                       game.Players:Chat(":gear " .. User .. " " .. gearID)
                                                    end
                                                    return true
+                                                end
+                                                function CheckPlayerExistence(Player)
+                                                   local player_exists
+                                                   for _,v in pairs(game.Players:GetPlayers()) do
+                                                      if (v.Name == Player) then
+                                                         player_exists = true
+                                                      end
+                                                   end
+                                                   if (player_exists == true) then
+                                                      return true
+                                                   else
+                                                      return false
+                                                   end
+                                                end
+                                                function HandleGameLeave(effectOptional, is_server_hopping)
+                                                   if (effectOptional == true) then
+                                                      playAudio("LEAVING_GAME")
+                                                      PlayLeavingAnimation(nil)
+                                                      task.wait(1.8)
+                                                   end
+                                                   if (is_server_hopping == true) then
+                                                      ServerHop()
+                                                   else
+                                                      game:Shutdown()
+                                                   end
                                                 end

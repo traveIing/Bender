@@ -31,7 +31,7 @@ local function splitByArgs(str, s, args)
     return tbl
 end
 
-local function processCommand(str)
+function processCommand(str)
     local multiples = string.find(str, multSeperator) and string.split(str, multSeperator) or {str}
     for _,Str in pairs(multiples) do
         local split_commands = string.split(Str, " ")
@@ -53,7 +53,7 @@ local function processCommand(str)
     end
 end
 
-local function addCommand(info)
+function addCommand(info)
     if Commands[info.Name] then
         return
     end

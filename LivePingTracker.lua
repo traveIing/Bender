@@ -63,4 +63,3 @@ end
 task.spawn(function()
 	create_ping_tracker()
 end)
-print("fired")

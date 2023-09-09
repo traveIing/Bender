@@ -60,15 +60,15 @@ function addCommand(info)
 
     info.Args = info.Args or 0
     info.Aliases = info.Aliases or {}
-
-    Commands[info.Name] = {
+    Commands[info.Name:lower()] = {
         Info = info
     }
 
     if #info.Aliases > 0 then
         for _,alias in next, info.Aliases do
-            if not Commands[alias] then
-                Commands[alias] = {
+            local lowered = string.lower(alias)
+            if not Commands[lowered] then
+                Commands[lowered] = {
                     Info = info
                 }
             end

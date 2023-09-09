@@ -5,8 +5,7 @@ local multSeperator = "||"
 
 local Commands = {}
 
--- table.find basically
-function isInTable(str, tbl)
+local function isInTable(str, tbl)
     for _,v in pairs(tbl) do
         if v == str then
             return true
@@ -15,42 +14,35 @@ function isInTable(str, tbl)
     return false
 end
 
--- cool split by argument number
-function splitByArgs(str, s, args)
-    if args == 0 then
+local function splitByArgs(str, s, args)
+    if (args == 0) then
         return {str}
     end
     
     local b = string.split(str, s)
-
     local tbl = {b[1]}
-    
     for i = 1, args do
-        if i ~= 1 then
+        if (i ~= 1) then
             table.insert(tbl, b[i])
         end
     end
-    
     table.remove(b, 1)
     table.insert(tbl, table.concat(b, s, args, #b))
-
     return tbl
 end
 
--- process command, ex usage: processCommand(Prefix .. "serverlock")
-function processCommand(str)
-    local lowerStr = string.lower(str)
+local function processCommand(str)
     local multiples = string.find(str, multSeperator) and string.split(str, multSeperator) or {str}
-    for _,Str in next, multiples do
-        local multSplitSpace = string.split(Str, " ")
-        local command = string.sub(multSplitSpace[1], #Prefix + 1, #multSplitSpace[1])
-        if Commands[command] and string.sub(Str,1,#Prefix) == Prefix then
+    for _,Str in pairs(multiples) do
+        local split_commands = string.split(Str, " ")
+        local command = string.sub(split_commands[1], #Prefix + 1, #split_commands[1])
+        if (Commands[command]) then
             local info = Commands[command].Info
             local splitStr = splitByArgs(Str, " ", info.Args)
             if string.sub(splitStr[1],1,#Prefix) == Prefix then
                 if string.lower(splitStr[1]) == Prefix .. info.Name or isInTable(string.lower(command), info.Aliases) then
-                    if info.Args == 0 then
-                        info.Function()  
+                    if (info.Args == 0) then
+                        info.Function()
                     else
                         table.remove(splitStr, 1)
                         info.Function(table.unpack(splitStr))
@@ -61,7 +53,7 @@ function processCommand(str)
     end
 end
 
-function addCommand(info)
+local function addCommand(info)
     if Commands[info.Name] then
         return
     end

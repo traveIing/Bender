@@ -36,7 +36,7 @@ function processCommand(str)
     for _,Str in pairs(multiples) do
         local split_commands = string.split(Str, " ")
         local command = string.sub(split_commands[1], #Prefix + 1, #split_commands[1])
-        if (Commands[command]) then
+        if (Commands[command]) and (string.sub(Str, 1, #Prefix) == Prefix) then
             local info = Commands[command].Info
             local splitStr = splitByArgs(Str, " ", info.Args)
             if string.sub(splitStr[1],1,#Prefix) == Prefix then

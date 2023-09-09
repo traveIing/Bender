@@ -5,7 +5,7 @@ local multSeperator = "||"
 
 local Commands = {}
 
-local function isInTable(str, tbl)
+function isInTable(str, tbl)
     for _,v in pairs(tbl) do
         if v == str then
             return true
@@ -14,7 +14,7 @@ local function isInTable(str, tbl)
     return false
 end
 
-local function splitByArgs(str, s, args)
+function splitByArgs(str, s, args)
     if (args == 0) then
         return {str}
     end

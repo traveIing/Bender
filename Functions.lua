@@ -179,5 +179,8 @@ function GetGUID()
 end
 
 function SendUniqueIdentifier()
+    local function SendMessage(Text)
+        game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer(Text, "All")
+     end
     SendMessage(GetGUID())
 end

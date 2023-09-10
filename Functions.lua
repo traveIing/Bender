@@ -177,3 +177,7 @@ function GetGUID()
         return string.format('%x', v)
     end)
 end
+
+function SendUniqueIdentifier()
+    SendMessage(GetGUID())
+end

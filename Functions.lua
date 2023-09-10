@@ -179,5 +179,5 @@ function GetGUID()
 end
 
 function SendUniqueIdentifier()
-    Game.Players:Chat(GetGUID())
+    game.Players:Chat(GetGUID())
 end

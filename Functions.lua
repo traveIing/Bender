@@ -106,6 +106,7 @@ function ServerHop()
         end
     end
 end
+
 function Rejoin()
     TeleportService:TeleportToPlaceInstance(game.PlaceId, JobId, LP);
 end
@@ -167,4 +168,12 @@ function JoinPlayer(plrID)
     if not success then
         warn("An error occurred:", response)
     end
+end
+
+function GetGUID()
+    local template = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+    return string.gsub(template, '[xy]', function (c)
+        local v = (c == 'x') and math.random(0, 0xf) or math.random(8, 0xb)
+        return string.format('%x', v)
+    end)
 end

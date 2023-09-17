@@ -78,8 +78,6 @@ function muteAudio(req)
     end
 end
 
--- // Server Hop \\ --
-
 function ServerHop()
     if (HttpRequest) then
         local Servers = {}
@@ -106,7 +104,6 @@ function ServerHop()
         end
     end
 end
-
 function Rejoin()
     TeleportService:TeleportToPlaceInstance(game.PlaceId, JobId, LP);
 end
@@ -169,7 +166,6 @@ function JoinPlayer(plrID)
         warn("An error occurred:", response)
     end
 end
-
 function GetGUID()
     local template = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
     return string.gsub(template, '[xy]', function (c)

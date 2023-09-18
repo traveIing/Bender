@@ -140,17 +140,16 @@ local function transformColor(color)
 end
 
 local function prepMapChange()
-    game.Players:Chat("gear me 18474459")
+    game.Players:Chat(":gear me 18474459")
     repeat task.wait() until game.Players.LocalPlayer.Backpack:FindFirstChild("PaintBucket")
     game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.PaintBucket)
     repeat task.wait() until game.Players.LocalPlayer.Character:FindFirstChild("PaintBucket")
-    task.wait(1)
 end
 
 function ChangeMapColor(color)
     prepMapChange()
-    pcall(function()
         coroutine.wrap(function()
+            task.spawn(function()
             ColorAPI.colorHouse({
                 wallsC = transformColor(color),
                 baseC = transformColor(color),
@@ -161,8 +160,8 @@ function ChangeMapColor(color)
                 rooftsC = transformColor(color),
                 chiC = transformColor(color)
             })
-        end)()
-
+        end)
+        task.spawn(function()
             local buildingBricksColors = {
                 DarkStoneGrey = transformColor(color),
                 DeepBlue = transformColor(color),
@@ -180,14 +179,16 @@ function ChangeMapColor(color)
             ColorAPI.colorObbyBricks(transformColor(color))
             ColorAPI.colorAdminDivs(transformColor(color))
             ColorAPI.colorPads(transformColor(color))
-            game.Players:Chat(":ungear me")
         end)
+    end)()
+    game.Players:Chat(":ungear me")
     end
 
 -- // Themes (MISC)
 
 function FixMapColors()
     prepMapChange()
+    task.spawn(function()
     ColorAPI.colorObbyBox(transformColor("Teal"))
     ColorAPI.colorObbyBricks(transformColor("Really red"))
     ColorAPI.colorAdminDivs(transformColor("Dark stone grey"))
@@ -203,6 +204,8 @@ function FixMapColors()
         TP = transformColor("Toothpaste"),
         RR = transformColor("Really red"),
     })
+end)
+    task.spawn(function()
     ColorAPI.colorHouse({
         wallsC = transformColor("Brick yellow"),
         baseC = transformColor("Bright green"),
@@ -214,6 +217,7 @@ function FixMapColors()
         chiC = transformColor("Sand red"),
         ColorAPI.color(game.Workspace.Terrain["_Game"].Workspace["Baseplate"], transformColor("Bright green"))
     })
+end)
     game.Players:Chat(":ungear me")
 end
 

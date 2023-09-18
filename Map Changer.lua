@@ -139,149 +139,110 @@ local function transformColor(color)
     return ColorAPI.transformToColor3(BrickColor.new(color))
 end
 
-local function prepMapChange(duration)
-game.Players:Chat("gear me 18474459")
-task.wait(duration)
-game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.PaintBucket)
+local function prepMapChange()
+    game.Players:Chat("gear me 18474459")
+    repeat task.wait() until game.Players.LocalPlayer.Backpack:FindFirstChild("PaintBucket")
+    game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.PaintBucket)
+    repeat task.wait() until game.Players.LocalPlayer.Character:FindFirstChild("PaintBucket")
 end
 
 function ChangeMapColor(color)
+    prepMapChange()
+    pcall(function()
+        coroutine.wrap(function()
+            ColorAPI.colorHouse({
+                wallsC = transformColor(color),
+                baseC = transformColor(color),
+                roofC = transformColor(color),
+                WANDDC = transformColor(color),
+                stairsC = transformColor(color),
+                floorC = transformColor(color),
+                rooftsC = transformColor(color),
+                chiC = transformColor(color)
+            })
+        end)()
 
-prepMapChange(0.5)
-
-coroutine.wrap(function()
-ColorAPI.colorHouse({
-wallsC = transformColor(color),
-baseC = transformColor(color),
-roofC = transformColor(color),
-WANDDC = transformColor(color),
-stairsC = transformColor(color),
-floorC = transformColor(color),
-rooftsC = transformColor(color),
-chiC = transformColor(color)
-})
-end)()
-
-task.spawn(function()
-local buildingBricksColors = {
-DarkStoneGrey = transformColor(color),
-DeepBlue = transformColor(color),
-NY = transformColor(color),
-IW = transformColor(color),
-LimeGreen = transformColor(color),
-MSG = transformColor(color),
-RB = transformColor(color),
-TP = transformColor(color),
-RR = transformColor(color)}
-ColorAPI.colorBuildingBricks(buildingBricksColors)
-end)
-
-ColorAPI.color(game.Workspace.Terrain["_Game"].Workspace["Baseplate"], transformColor(color))
-
-task.spawn(function()
-ColorAPI.colorObbyBox(transformColor(color))
-end)
-task.spawn(function()
-ColorAPI.colorObbyBricks(transformColor(color))
-end)
-task.spawn(function()
-ColorAPI.colorAdminDivs(transformColor(color))
-end)
-task.spawn(function()
-ColorAPI.colorPads(transformColor(color))
-end)
-task.wait(0.5)
-game.Players:Chat(":ungear me")
-
-end
+            local buildingBricksColors = {
+                DarkStoneGrey = transformColor(color),
+                DeepBlue = transformColor(color),
+                NY = transformColor(color),
+                IW = transformColor(color),
+                LimeGreen = transformColor(color),
+                MSG = transformColor(color),
+                RB = transformColor(color),
+                TP = transformColor(color),
+                RR = transformColor(color)
+            }
+            ColorAPI.colorBuildingBricks(buildingBricksColors)
+            ColorAPI.color(game.Workspace.Terrain["_Game"].Workspace["Baseplate"], transformColor(color))
+            ColorAPI.colorObbyBox(transformColor(color))
+            ColorAPI.colorObbyBricks(transformColor(color))
+            ColorAPI.colorAdminDivs(transformColor(color))
+            ColorAPI.colorPads(transformColor(color))
+            game.Players:Chat(":ungear me")
+        end)
+    end
 
 -- // Themes (MISC)
 
 function FixMapColors()
-prepMapChange(0.5)
-task.spawn(function()
-ColorAPI.colorObbyBox(transformColor("Teal"))
-end)
-task.spawn(function()
-ColorAPI.colorObbyBricks(transformColor("Really red"))
-end)
-
-task.spawn(function()
-ColorAPI.colorAdminDivs(transformColor("Dark stone grey"))
-end)
-task.spawn(function()
-ColorAPI.colorPads(transformColor("Bright green"))
-end)
-task.spawn(function()
-ColorAPI.colorBuildingBricks({
-DarkStoneGrey = transformColor("Dark stone grey"),
-DeepBlue = transformColor("Deep blue"),
-NY = transformColor("New Yeller"),
-IW = transformColor("Institutional white"),
-LimeGreen = transformColor("Lime green"),
-MSG = transformColor("Medium Stone grey"),
-RB = transformColor("Really black"),
-TP = transformColor("Toothpaste"),
-RR = transformColor("Really red"),
-})
-end)
-task.spawn(function()
-ColorAPI.colorHouse({
-wallsC = transformColor("Brick yellow"),
-baseC = transformColor("Bright green"),
-roofC = transformColor("Bright red"),
-WANDDC = transformColor("Dark orange"),
-stairsC = transformColor("Dark stone grey"),
-floorC = transformColor("Medium blue"),
-rooftsC = transformColor("Reddish brown"),
-chiC = transformColor("Sand red"),
-ColorAPI.color(game.Workspace.Terrain["_Game"].Workspace["Baseplate"], transformColor("Bright green"))
-})
-end)
-task.wait(0.5)
-game.Players:Chat(":ungear me")
+    prepMapChange()
+    ColorAPI.colorObbyBox(transformColor("Teal"))
+    ColorAPI.colorObbyBricks(transformColor("Really red"))
+    ColorAPI.colorAdminDivs(transformColor("Dark stone grey"))
+    ColorAPI.colorPads(transformColor("Bright green"))
+    ColorAPI.colorBuildingBricks({
+        DarkStoneGrey = transformColor("Dark stone grey"),
+        DeepBlue = transformColor("Deep blue"),
+        NY = transformColor("New Yeller"),
+        IW = transformColor("Institutional white"),
+        LimeGreen = transformColor("Lime green"),
+        MSG = transformColor("Medium Stone grey"),
+        RB = transformColor("Really black"),
+        TP = transformColor("Toothpaste"),
+        RR = transformColor("Really red"),
+    })
+    ColorAPI.colorHouse({
+        wallsC = transformColor("Brick yellow"),
+        baseC = transformColor("Bright green"),
+        roofC = transformColor("Bright red"),
+        WANDDC = transformColor("Dark orange"),
+        stairsC = transformColor("Dark stone grey"),
+        floorC = transformColor("Medium blue"),
+        rooftsC = transformColor("Reddish brown"),
+        chiC = transformColor("Sand red"),
+        ColorAPI.color(game.Workspace.Terrain["_Game"].Workspace["Baseplate"], transformColor("Bright green"))
+    })
+    game.Players:Chat(":ungear me")
 end
 
 function Quiving()
-    prepMapChange(0.5)
-    task.spawn(function()
-        ColorAPI.colorObbyBox(transformColor("Bright green"))
-    end)
-    task.spawn(function()
-        ColorAPI.colorObbyBricks(transformColor("Really black"))
-    end)
-    task.spawn(function()
-        ColorAPI.colorAdminDivs(transformColor("Really black"))
-    end)
-    task.spawn(function()
-        ColorAPI.colorPads(transformColor("Bright green"))
-    end)
-    task.spawn(function()
-        ColorAPI.colorBuildingBricks({
-            DarkStoneGrey = transformColor("Really black"),
-            DeepBlue = transformColor("Bright green"),
-            NY = transformColor("Really black"),
-            IW = transformColor("Dark stone grey"),
-            LimeGreen = transformColor("Bright green"),
-            MSG = transformColor("Really black"),
-            RB = transformColor("Bright green"),
-            TP = transformColor("Dark stone grey"),
-            RR = transformColor("Really black"),
-        })
-    end)
-    task.spawn(function()
-        ColorAPI.colorHouse({
-            wallsC = transformColor("Bright green"),
-            baseC = transformColor("Really black"),
-            roofC = transformColor("Bright green"),
-            WANDDC = transformColor("Really black"),
-            stairsC = transformColor("Dark stone grey"),
-            floorC = transformColor("Bright green"),
-            rooftsC = transformColor("Really black"),
-            chiC = transformColor("Bright green"),
-            ColorAPI.color(game.Workspace.Terrain["_Game"].Workspace["Baseplate"], transformColor("Earth green"))
-        })
-    end)
-    task.wait(0.5)
+    prepMapChange()
+    ColorAPI.colorObbyBox(transformColor("Bright green"))
+    ColorAPI.colorObbyBricks(transformColor("Really black"))
+    ColorAPI.colorAdminDivs(transformColor("Really black"))
+    ColorAPI.colorPads(transformColor("Bright green"))
+    ColorAPI.colorBuildingBricks({
+        DarkStoneGrey = transformColor("Really black"),
+        DeepBlue = transformColor("Bright green"),
+        NY = transformColor("Really black"),
+        IW = transformColor("Dark stone grey"),
+        LimeGreen = transformColor("Bright green"),
+        MSG = transformColor("Really black"),
+        RB = transformColor("Bright green"),
+        TP = transformColor("Dark stone grey"),
+        RR = transformColor("Really black"),
+    })
+    ColorAPI.colorHouse({
+        wallsC = transformColor("Bright green"),
+        baseC = transformColor("Really black"),
+        roofC = transformColor("Bright green"),
+        WANDDC = transformColor("Really black"),
+        stairsC = transformColor("Dark stone grey"),
+        floorC = transformColor("Bright green"),
+        rooftsC = transformColor("Really black"),
+        chiC = transformColor("Bright green"),
+        ColorAPI.color(game.Workspace.Terrain["_Game"].Workspace["Baseplate"], transformColor("Earth green"))
+    })
     game.Players:Chat(":ungear me")
 end

@@ -56,6 +56,6 @@ function chatNotify(messageText, messageColor)
     game.StarterGui:SetCore("ChatMakeSystemMessage", chatSettings)
 end
 function promptBetaInfo()
-    chatNotify("Developer Beta | Commands may potentially be buggy or unstable. Please report any issues on our Discord server!", 0) 
-    chatNotify("https://discord.gg/UCvJatDRfp", 0)
+    chatNotify("Developer Beta | Commands may potentially be buggy or unstable. Please report any issues on our Discord server!", Color3.new(0, 0, 1)) 
+    chatNotify("https://discord.gg/UCvJatDRfp", Color3.new(0, 0, 1))
  end

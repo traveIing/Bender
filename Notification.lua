@@ -46,13 +46,14 @@ function notifyError(titletx, txt, time)
     playAudio("Error")
     notify(titletx, txt, time)
 end
-function chatNotify(reqMsg, reqColor)
-    game.StarterGui:SetCore("ChatMakeSystemMessage", {
-        Text = reqMsg; 
-        Font = Enum.Font.SourceSansBold;
-        FontSize = Enum.FontSize.Size36;
-        Color = Color3.new(reqColor);
-    })
+function chatNotify(messageText, messageColor)
+    local chatSettings = {
+        Text = messageText,
+        Font = Enum.Font.SourceSansBold,
+        FontSize = Enum.FontSize.Size36,
+        Color = messageColor
+    }
+    game.StarterGui:SetCore("ChatMakeSystemMessage", chatSettings)
 end
 function promptBetaInfo()
     chatNotify("Developer Beta | Commands may potentially be buggy or unstable. Please report any issues on our Discord server!", 0) 

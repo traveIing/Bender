@@ -1,6 +1,6 @@
 -- // THANK YOU QUIVING!!! \\ --
 
-getgenv().Prefix = ""
+getgenv().Bender_Prefix = ""
 local multSeperator = "||"
 
 local Commands = {}

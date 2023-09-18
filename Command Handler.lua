@@ -35,12 +35,12 @@ function processCommand(str)
     local multiples = string.find(str, multSeperator) and string.split(str, multSeperator) or {str}
     for _,Str in pairs(multiples) do
         local split_commands = string.split(Str, " ")
-        local command = string.sub(split_commands[1], #Prefix + 1, #split_commands[1])
-        if (Commands[command]) and (string.sub(Str, 1, #Prefix) == Prefix) then
+        local command = string.sub(split_commands[1], #getgenv().Bender_Prefix + 1, #split_commands[1])
+        if (Commands[command]) and (string.sub(Str, 1, #getgenv().Bender_Prefix) == getgenv().Bender_Prefix) then
             local info = Commands[command].Info
             local splitStr = splitByArgs(Str, " ", info.Args)
-            if string.sub(splitStr[1],1,#Prefix) == Prefix then
-                if string.lower(splitStr[1]) == Prefix .. info.Name or isInTable(string.lower(command), info.Aliases) then
+            if string.sub(splitStr[1],1,#getgenv().Bender_Prefix) == getgenv().Bender_Prefix then
+                if string.lower(splitStr[1]) == getgenv().Bender_Prefix .. info.Name or isInTable(string.lower(command), info.Aliases) then
                     if (info.Args == 0) then
                         info.Function()
                     else

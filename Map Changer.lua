@@ -144,6 +144,7 @@ local function prepMapChange()
     repeat task.wait() until game.Players.LocalPlayer.Backpack:FindFirstChild("PaintBucket")
     game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.PaintBucket)
     repeat task.wait() until game.Players.LocalPlayer.Character:FindFirstChild("PaintBucket")
+    task.wait(0.25)
 end
 
 function ChangeMapColor(color)

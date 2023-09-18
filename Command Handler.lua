@@ -1,6 +1,6 @@
 -- // THANK YOU QUIVING!!! \\ --
 
-local Prefix = ""
+getgenv().Prefix = ""
 local multSeperator = "||"
 
 local Commands = {}

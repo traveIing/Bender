@@ -43,7 +43,7 @@ function Notify(titletxt, text, time)
 end
 function NotifyError(titletx, txt, time)
     PlaySound("Error")
-    notify(titletx, txt, time)
+    Notify(titletx, txt, time)
 end
 function chatNotify(messageText, messageColor)
     local chatSettings = {

@@ -1,4 +1,4 @@
-function notify(titletxt, text, time)
+function Notify(titletxt, text, time)
     local GUI = Instance.new("ScreenGui")
     local Main = Instance.new("Frame", GUI)
     local UICorner = Instance.new("UICorner", Main)
@@ -10,7 +10,7 @@ function notify(titletxt, text, time)
     Main.BackgroundColor3 = Color3.fromRGB(71, 71, 71)
     Main.BackgroundTransparency = 0.2
     Main.BorderSizePixel = 0
-    Main.Position = UDim2.new(1, 330, 0, 50) -- Starting position outside the screen
+    Main.Position = UDim2.new(1, 330, 0, 50)
     Main.Size = UDim2.new(0, 330, 0, 100)
 
     title.BackgroundColor3 = Color3.fromRGB(71, 71, 71)
@@ -32,7 +32,6 @@ function notify(titletxt, text, time)
     message.TextSize = 16
     message.TextWrapped = true
 
-    -- Tween the Main frame in
     Main:TweenPosition(UDim2.new(1, -330, 0, 50), "Out", "Sine", 0.5)
 
     coroutine.wrap(function()
@@ -42,8 +41,8 @@ function notify(titletxt, text, time)
         GUI:Destroy()
     end)()
 end
-function notifyError(titletx, txt, time)
-    playAudio("Error")
+function NotifyError(titletx, txt, time)
+    PlaySound("Error")
     notify(titletx, txt, time)
 end
 function chatNotify(messageText, messageColor)

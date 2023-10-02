@@ -10,15 +10,17 @@
 ColorAPI = {}
 
 ColorAPI.color = function(Part, color)
-    local thread = coroutine.create(function()
-        local Arguments =
-        {
-            ["Part"] = Part,
-            ["Color"] = color
-        }
-        game:GetService("Workspace")[game:GetService("Players").LocalPlayer.Name].PaintBucket:WaitForChild("Remotes").ServerControls:InvokeServer("PaintPart", Arguments)
+    pcall(function()
+        local thread = coroutine.create(function()
+            local Arguments =
+            {
+                ["Part"] = Part,
+                ["Color"] = color
+            }
+            game:GetService("Workspace")[game:GetService("Players").LocalPlayer.Name].PaintBucket:WaitForChild("Remotes").ServerControls:InvokeServer("PaintPart", Arguments)
+        end)
+        coroutine.resume(thread)
     end)
-    coroutine.resume(thread)
 end
 ColorAPI.transformToColor3 = function(col)
     local r = col.r

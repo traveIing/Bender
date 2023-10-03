@@ -19,7 +19,7 @@ function LoadServerList(request)
                 }
                 local tweenInfo = TweenInfo.new(
                     0.5,
-                    Enum.EasingStyle.Linear,
+                    Enum.EasingStyle.Sine,
                     Enum.EasingDirection.Out,
                     0,
                     false,
@@ -235,6 +235,7 @@ function LoadServerList(request)
         local gui = Instance.new("ScreenGui")
         gui.Name = "ServerListGUI"
         gui.Parent = LP.PlayerGui
+        gui.ResetOnSpawn = false
         local mainFrame = Instance.new("Frame")
         mainFrame.Name = "mainFrame"
         mainFrame.Parent = gui
@@ -286,7 +287,7 @@ function LoadServerList(request)
         }
         local tweenInfo = TweenInfo.new(
             0.5,
-            Enum.EasingStyle.Linear,
+            Enum.EasingStyle.Sine,
             Enum.EasingDirection.Out,
             0,
             false,
@@ -296,3 +297,5 @@ function LoadServerList(request)
         tween:Play()
     end
 end
+
+LoadServerList(true)

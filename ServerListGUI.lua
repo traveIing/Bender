@@ -297,5 +297,3 @@ function LoadServerList(request)
         tween:Play()
     end
 end
-
-LoadServerList(true)

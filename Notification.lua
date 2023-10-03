@@ -56,6 +56,7 @@ function chatNotify(messageText, messageColor)
 end
 
 function SendAlert(title, text)
+    local TweenService = game:GetService("TweenService")
     local TextAlert = Instance.new("ScreenGui")
     local Main = Instance.new("Frame")
     local TextContainer = Instance.new("Frame")
@@ -149,7 +150,15 @@ function SendAlert(title, text)
         local script = Instance.new('LocalScript', CloseButton)
         local closeButton = script.Parent
         closeButton.MouseButton1Click:Connect(function()
-            closeButton.Parent.Parent:Destroy()
+            local properties = {
+                Position = UDim2.new(0.01, 0, 0.400000024, 0)
+            }
+            local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0.5)
+            local tween = TweenService:Create(Main, tweenInfo, properties)
+            tween.Completed:Connect(function()
+                closeButton.Parent.Parent:Destroy()
+            end)
+            tween:Play()
         end)
     end
     coroutine.wrap(KQIZG_fake_script)()

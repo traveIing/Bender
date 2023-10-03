@@ -25,7 +25,7 @@ function PlaySound(req)
         ["Intro"] = "1570675466", ["Error"] = "8551372796",
         ["SetupError"] = "1346533206", ["CrashDetected"] = "7383525713",
         ["CONFIRM_ACTION"] = "1524543584", ["LEAVING_GAME"] = "4835664238",
-        ["PREFIX_CHANGE"] = "716565345"
+        ["PREFIX_CHANGE"] = "716565345", ["STARTUP_SOUND"] = "9041819468"
     }
 
     for name, aid in pairs(sound_types) do

@@ -19,7 +19,7 @@ function LoadServerList(request)
                 }
                 local tweenInfo = TweenInfo.new(
                     0.5,
-                    Enum.EasingStyle.Sine,
+                    Enum.EasingStyle.Linear,
                     Enum.EasingDirection.Out,
                     0,
                     false,
@@ -68,7 +68,9 @@ function LoadServerList(request)
 
         local Data = listfiles(ServerListPath)
         for i,v in pairs(Data) do
-            delfile(v)
+            if (isfolder(v)) then
+                delfolder(v)
+            end
         end
 
         -- // Functions \\ --
@@ -287,7 +289,7 @@ function LoadServerList(request)
         }
         local tweenInfo = TweenInfo.new(
             0.5,
-            Enum.EasingStyle.Sine,
+            Enum.EasingStyle.Linear,
             Enum.EasingDirection.Out,
             0,
             false,

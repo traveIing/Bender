@@ -151,7 +151,7 @@ function SendAlert(title, text)
         local closeButton = script.Parent
         closeButton.MouseButton1Click:Connect(function()
             local properties = {
-                Position = UDim2.new(0.01, 0, 0.400000024, 0)
+                Position = UDim2.new(-0.9, 0, 0.400000024, 0)
             }
             local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0.5)
             local tween = TweenService:Create(Main, tweenInfo, properties)

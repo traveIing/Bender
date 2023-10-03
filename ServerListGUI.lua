@@ -168,22 +168,21 @@ function LoadServerList(request)
                     for index, file in pairs(ServerFiles) do
                         if (index == 1) then
                             current_dir = tostring(ServerFiles)
-                        else
-                            local headshot = formatLS(file)
-                            if (not table.find(saved_dir, tostring(headshot))) and (current_dir == tostring(ServerFiles)) then
-                                local data = readfile(file)
-                                if (index == 1) and (type(data) == "string") then
-                                    jobid = tostring(data)
-                                end
-                                assetid = GetAsset(headshot)
-                                table.insert(saved_dir, tostring(headshot))
-                                fetched_headshot = true
-                                break
-                            end
                         end
-                        if (fetched_headshot == true) then
+                        local headshot = formatLS(file)
+                        if (not table.find(saved_dir, tostring(headshot))) and (current_dir == tostring(ServerFiles)) then
+                            local data = readfile(file)
+                            if (index == 1) and (type(data) == "string") then
+                                jobid = tostring(data)
+                            end
+                            assetid = GetAsset(headshot)
+                            table.insert(saved_dir, tostring(headshot))
+                            fetched_headshot = true
                             break
                         end
+                    end
+                    if (fetched_headshot == true) then
+                        break
                     end
                 end
                 local imageLabel = Instance.new("ImageLabel")

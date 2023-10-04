@@ -153,7 +153,7 @@ function SendAlert(title, text)
             local properties = {
                 Position = UDim2.new(-0.9, 0, 0.400000024, 0)
             }
-            local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0.5)
+            local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0.1)
             local tween = TweenService:Create(Main, tweenInfo, properties)
             tween.Completed:Connect(function()
                 closeButton.Parent.Parent:Destroy()

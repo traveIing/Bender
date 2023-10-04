@@ -1,4 +1,6 @@
 task.spawn(function()
+    game.StarterGui:SetCoreGuiEnabled("PlayerList",  false)
+
     -- Gamepass Check
     local function hasPerm(plr)
         local PermNBC = 66254

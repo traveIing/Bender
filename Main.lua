@@ -56,82 +56,66 @@
    end
 
    -- Game Evaluation
-   if (game.PlaceId == NBCKohlsID) or (game.PlaceId == BCKohlsID) then
-      InKohls = true
-
-      -- Execution Evaluation
-      if not getgenv().Bender_Executed then
-         warn("ACEXPS")
-         getgenv().Bender_Executed = true
-         getgenv().Bender_InstanceEnabled = true
-      else
-         warn("ACEXFS")
-         return
+   if (game.PlaceId ~= NBCKohlsID) and (game.PlaceId ~= BCKohlsID) then return end
+   InKohls = true
+   
+   -- Execution Evaluation
+   if getgenv().Bender_Executed then warn("ACEXFS") return end
+   warn("ACEXPS") getgenv().Bender_Executed = true getgenv().Bender_InstanceEnabled = true
+   
+   -- Initializing Plugins
+   local failed_scripts = {}
+   
+   local function round_int(int)
+      return math.floor(int + 0.5)
+   end
+   local function load_import(link)
+      local success, err pcall(function()
+         loadstring(game:HttpGet(link))()
+      end)
+      if (success ~= true) and (err ~= nil) then
+         table.insert(failed_scripts, link)
       end
-
-      -- Initializing Plugins
-      local failed_scripts = {}
-
-      local function round_int(int)
-         return math.floor(int + 0.5)
-      end
-      local function load_import(link)
-         local success, err pcall(function()
-            loadstring(game:HttpGet(link))()
-         end)
-         if (success ~= true) and (err ~= nil) then
-            table.insert(failed_scripts, link)
+      return true
+   end
+   local function import_progress_bar()
+      load_import("https://raw.githubusercontent.com/traveIing/bender/main/Progress%20Bar.lua")
+      repeat task.wait() until (setProgress ~= nil)
+   end
+   local function flush_settings()
+      pcall(function()
+         game.Players.LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("LoadingBar"):Destroy()
+      end)
+      getgenv().Bender_Executed = false
+      getgenv().Bender_InstanceEnabled = false
+      ServerConnected = false
+   end
+   local function calc_segments(count)
+      local segments = {} local whole = 100
+      if count > 0 then
+         local segment_size = whole / count local value = 0
+         for i = 1, count do
+            table.insert(segments, round_int(value + segment_size)) value = round_int(value + segment_size)
          end
-         return true
       end
-      local function import_progress_bar()
-         load_import("https://raw.githubusercontent.com/traveIing/bender/main/Progress%20Bar.lua")
-         repeat task.wait() until (setProgress ~= nil)
-      end
-      local function flush_settings()
-         pcall(function()
-            game.Players.LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("LoadingBar"):Destroy()
-         end)
-         getgenv().Bender_Executed = false
-         getgenv().Bender_InstanceEnabled = false
-         ServerConnected = false
-      end
-      local function calc_segments(count)
-         local segments = {}
-         local whole = 100
-         if count > 0 then
-             local segment_size = whole / count
-             local value = 0
-             for i = 1, count do
-                 table.insert(segments, round_int(value + segment_size))
-                 value = round_int(value + segment_size)
-             end
-         end
          return segments
      end
 
-     import_progress_bar()
-     setProgress(0, "Connecting to Bender's servers..")
+     import_progress_bar() setProgress(0, "Connecting to Bender's servers..")
 
      local connection_established
      local success, error pcall(function()
       load_import("https://communication-1.joinbender.com/server_connection.lua")
       repeat task.wait() until EstablishServerConnection
       local connected, status = EstablishServerConnection()
-      if (connected == true) and (status == nil) then
-         connection_established = true
-      else
-         connection_established = false
-      end
-   end)
-   if (success ~= true) and (error ~= nil) or (connection_established == false) then
-      flush_settings()
-   else
-      ServerConnected = true
-   end
+      if (connected == true) and (status == nil) then connection_established = true
+      else connection_established = false end end)
 
-   if (ServerConnected == true) then
-      task.wait(0.45)
+   if (success ~= true) and (error ~= nil) or (connection_established == false) then
+      setProgress(0, "Failed to connect to our servers.") task.wait(1) flush_settings()
+   else ServerConnected = true end
+
+   if (ServerConnected == true) then task.wait(0.45)
 
       local script_plugins = {
          ["Command Bar"] = "https://raw.githubusercontent.com/traveIing/bender/main/Command%20Bar.lua",
@@ -196,9 +180,6 @@
             Notify("Bender", "Bender ran into some issues during initialization. Please press 'F9', or type '/console' for more information.", 15)
          end
       end
-   else
-      LP:Kick("Sorry, this script is not compatible with this game.")
-   end
 
    -- // Startup \\ --
 
@@ -211,8 +192,7 @@
             PlaySound("CONFIRM_ACTION")
             if (text == "Yes") then
                Notify("Bender", "Press 'F9', or type '/console' to view a list of commands.", 3)
-               print("Commands: https://info.joinbender.com/docs")
-               print("Discord: https://discord.gg/UCvJatDRfp")
+               print("Commands: https://info.joinbender.com/docs") print("Discord: https://discord.gg/UCvJatDRfp")
             end
          end
 
@@ -224,10 +204,8 @@
          {
             Title = "Bender",
             Text = "Hello, ".. Display .."! Thank you for using Bender. It looks like you're new, so would you like to start with list of commands?\n",
-            Button1 = "Yes",
-            Button2 = "No",
-            Duration = 50,
-            Callback = Bind
+            Button1 = "Yes", Button2 = "No",
+            Duration = 50, Callback = Bind
          }
          )
       end
@@ -241,26 +219,20 @@
    end
 
    local success, error = pcall(function()
+      if (is_on_beta() == true) then
+         warn("DVBTPS") BetaEnabled = true promptBetaInfo()
+      else
+         BetaEnabled = false warn("DVBTFS")
+      end
+   end)
 
-   if (is_on_beta() == true) then
-      warn("DVBTPS")
-      BetaEnabled = true
-      promptBetaInfo()
-   else
-      BetaEnabled = false
-      warn("DVBTFS")
-   end
-end)
+   if (not success) then warn("Error occurred:", error) end
 
-   if (not success) then
-      warn("Error occurred:", error)
-   end
-
-   if (InKohls ~= true) and (ServerConnected == false) then
-      return
-   end
+   if (InKohls ~= true) and (ServerConnected == false) then return end
 end
    ------------------------------------------
+
+   if (ServerConnected ~= true) then return end
 
    Connections[#Connections + 1] = LP.Chatted:Connect(processCommand)
 
@@ -2204,12 +2176,10 @@ addCommand({
          Connections[#Connections + 1] = game.Players.PlayerAdded:Connect(function(Player)
             local data_address = "Bender/Logs/IntelligentMonitoring/MessageDataAfterCrash/" .. Player.Name .. ".json"
             if isfile(data_address) then
-                  local JSON = readfile(data_address)
-                  local decoded
+                  local JSON = readfile(data_address) local decoded
                   local success, error = pcall(function() decoded = game:GetService("HttpService"):JSONDecode(JSON) end)
                   if (success == true) and (error == nil) then
-                     local stored_messages = {}
-                     local similar_messages = 0
+                     local stored_messages = {} local similar_messages = 0
                         for _, message_data in pairs(decoded) do
                            if (type(message_data) == "table") then
                               for _, message in pairs(message_data) do
@@ -2224,9 +2194,9 @@ addCommand({
                         end
                         task.wait(0.5)
                         local function exceeds_limit(int)
-                           return int > 3
+                           return int > 4
                         end
-                        if (similar_messages == 2) then
+                        if (similar_messages == 3) then
                            SendCoreNotification(
                               "IntelligentMonitoring",
                               Player.Name .. " may have previously crashed your server. They have been recorded, and will be punished on their next infraction.\n\n",
@@ -2243,8 +2213,7 @@ addCommand({
                         end
                      else
                         warn("It looks like something went wrong with your configuration folder.")
-                        warn("Please report this to our Discord server!")
-                        warn("discord.gg/hQdNKfDf8X")
+                        warn("Please report this to our Discord server!") warn("discord.gg/hQdNKfDf8X")
                      end
                   end
                end)
@@ -2257,8 +2226,7 @@ addCommand({
                local stored_messages = getgenv().Bender_StoredMessages
                for _, player in pairs(game.Players:GetPlayers()) do
                   if (player ~= LP) then
-                     local last_messages = {}
-                     local count = 0
+                     local last_messages = {} local count = 0
                      for i = #stored_messages, 1, -1 do
                         if (stored_messages[i].username == player.Name) then
                            table.insert(last_messages, stored_messages[i].message)
@@ -2369,11 +2337,8 @@ addCommand({
                if (CheckPlayerExistence(player) == true) then
                   local player_object, uid, uname, date, guid, title, old_messages_json, data
                   do
-                     player_object = game.Players:FindFirstChild(player)
-                     uid = player_object.UserId
-                     uname = player
-                     date = GetTimestamp()
-                     guid = GetGUID()
+                     player_object = game.Players:FindFirstChild(player) uid = player_object.UserId
+                     uname = player date = GetTimestamp() guid = GetGUID()
                      title = uid .. "-REPORTEDCRASHER+" .. guid .. ".txt"
                      old_messages_json = GetRecentMessageData(uname)
                      data = "ReportDate:" .. date .. "-Username:" .. uname .. "-UserID:" .. uid .. "Recent-Messages:" .. old_messages_json
